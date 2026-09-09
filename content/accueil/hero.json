@@ -1,0 +1,19 @@
+{
+  "titre": "Éditeur de logiciels de gestion en Algérie depuis 1990",
+  "bouton": "Contactez-nous",
+  "scenes": [
+    {
+      "base": "/videos/hero-mes",
+      "libelle": "Production & MES"
+    },
+    {
+      "base": "/videos/hero-tms",
+      "libelle": "Logistique & TMS"
+    },
+    {
+      "base": "/videos/hero-cloud",
+      "libelle": "Cloud & infrastructure"
+    }
+  ],
+  "sous_titre": "Trois pôles, une seule ambition : simplifier la gestion de votre entreprise."
+}

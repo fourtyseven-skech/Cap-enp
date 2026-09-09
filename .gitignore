@@ -22,3 +22,28 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Variables d'environnement locales — ne jamais versionner.
+# `.env.example` sert de modèle et reste, lui, dans le dépôt.
+.env
+.env.local
+.env.*.local
+
+# Configuration réelle du serveur du panel — jamais versionnée.
+# `serveur/.env.example` sert de modèle et reste, lui, dans le dépôt.
+serveur/.env
+
+# Médias recopiés depuis la base au moment du build (dossier dérivé).
+# La base fait foi ; voir scripts/exporter-medias.mjs
+public/medias/
+
+# Manifeste écrit par scripts/exporter-contenu.mjs : dérivé, non versionné.
+content/accueil/.genere-depuis-la-base.json
+
+# Profil de navigateur et copies de recette.
+.chrome-editeur/
+.chrome-fiche/
+content/accueil/.*.recette
+
+# Outils de construction : gabarit vierge conservé entre deux constructions.
+.cache-build/

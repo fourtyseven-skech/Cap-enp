@@ -1,0 +1,35 @@
+{
+  "titre": "Nos Partenaires",
+  "accroche": "Alger, Miliana, Akbou, Béjaïa, Ghardaïa — touchez une ville pour voir votre contact local.",
+  "partenaires": [
+    {
+      "nom": "INFOTEC",
+      "region": "Alger",
+      "adresse": "95 rue de Chéraga, Dély Brahim, Alger",
+      "telephone": "+213 (021) 36 95 38"
+    },
+    {
+      "nom": "Micro Informatique Miliana",
+      "region": "Miliana",
+      "telephone": "+213 (027) 64 01 32"
+    },
+    {
+      "nom": "Ets Bensebaa Youssef",
+      "region": "Akbou",
+      "adresse": "97 rue Si El Houes, Akbou",
+      "telephone": "+213 (034) 35 93 37"
+    },
+    {
+      "nom": "Cabinet Ramdani Hafid",
+      "region": "Béjaïa",
+      "adresse": "17 rue des Frères Ikhlef, Béjaïa",
+      "telephone": "+213 07 71 68 25 69"
+    },
+    {
+      "nom": "Cabinet Khouadja Mustapha",
+      "region": "Ghardaïa",
+      "adresse": "Avenue du 1er Novembre, Ghardaïa",
+      "telephone": "+213 (029) 89 05 04"
+    }
+  ]
+}

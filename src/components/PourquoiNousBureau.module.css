@@ -1,0 +1,892 @@
+/*
+ * Section « Product Overview » — la section sombre.
+ *
+ * Valeurs relevées sur le site d'origine (styles calculés aux trois paliers),
+ * pas estimées. Le mouvement d'entrée vit dans
+ * `src/components/EntreeAuDefilement.jsx` — il est lié au défilement, donc
+ * calculé en JavaScript et non écrit ici. Le bandeau d'étiquettes, lui, vit
+ * dans `src/styles/bandeaux.css`, avec la mesure de sa vitesse.
+ *
+ * Trois paliers : bureau ≥ 1200 px, tablette 810–1199,98 px, mobile ≤ 809,98 px.
+ */
+
+.section {
+  --ind-fond: hsl(var(--ms-ink));
+  --ind-encre: #ffffff;
+  --ind-encre-douce: rgba(255, 255, 255, 0.72);
+  --ind-encre-terne: rgba(255, 255, 255, 0.5);
+  --ind-filet: rgba(255, 255, 255, 0.16);
+  /* les cartes de métier sont la seule chose du site écrite dans cette
+     police-là ; elle n'a donc pas de rôle dans tokens.css */
+  --ind-font-carte: Poppins, system-ui, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 20px;
+  width: 100%;
+  height: min-content;
+  padding: 100px 40px;
+  position: relative;
+  overflow: visible;
+  background-color: var(--ind-fond);
+}
+
+/*
+ * LES BORDURES SONT DES CALQUES, PAS DES BORDURES.
+ *
+ * Une vraie `border` s'ajoute à la boîte : la pastille passait de 33 à 35 px,
+ * chaque carte de 187,8 à 189,8. L'original les dessine par-dessus, en
+ * `::after`, sans rien déplacer. C'est ce qu'on refait ici.
+ */
+.pastille::after,
+.carte::after,
+.pilule::after,
+.atouts::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border-style: solid;
+  border-color: var(--cadre-couleur);
+  border-width: var(--cadre-epaisseur);
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.pastille::after {
+  --cadre-couleur: var(--ind-encre-douce);
+  --cadre-epaisseur: 1px;
+}
+
+.carte::after {
+  --cadre-couleur: rgba(13, 41, 0, 0.05);
+  --cadre-epaisseur: 1px;
+}
+
+.pilule::after {
+  --cadre-couleur: var(--ind-filet);
+  --cadre-epaisseur: 1px;
+}
+
+/* le filet du haut de la rangée d'atouts : seul le bord haut est tracé */
+.atouts::after {
+  --cadre-couleur: var(--ind-filet);
+  --cadre-epaisseur: 1px 0 0 0;
+}
+
+/* ---- Haut de section : l'en-tête à gauche, les cartes à droite ---------- */
+
+.colonnes {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  gap: 75px;
+  width: 1152px;
+  height: min-content;
+  padding: 96px 48px;
+  position: relative;
+}
+
+/*
+ * L'en-tête reste accroché pendant qu'on descend : c'est ce qui fait défiler
+ * les cartes en face d'un texte immobile.
+ */
+.entete {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 1 0 0px;
+  gap: 16px;
+  width: 1px;
+  max-width: 640px;
+  height: min-content;
+  position: sticky;
+  top: 164px;
+  z-index: 1;
+  /*
+   * `will-change` ne déplace rien, mais met l'élément sur sa propre couche —
+   * et ce qui s'y dessine ne se rastérise pas comme sur la couche commune.
+   * L'original le porte ici ; l'oublier écartait quelques centaines de pixels.
+   */
+  will-change: transform;
+}
+
+/* « Focus · On What Matters » — une pastille bordée. */
+.pastille {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 4px;
+  width: min-content;
+  height: min-content;
+  margin: 0;
+  padding: 6px 12px;
+  position: relative;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.2);
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ind-encre-douce);
+  /* les deux libellés ne se coupent pas */
+  white-space: pre;
+  /*
+   * `will-change` ne déplace rien, mais met l'élément sur sa propre couche —
+   * et ce qui s'y dessine ne se rastérise pas comme sur la couche commune.
+   * L'original le porte ici ; l'oublier écartait quelques centaines de pixels.
+   */
+  will-change: transform;
+}
+
+.titre {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  font-family: Poppins, system-ui, sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ind-encre);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.accroche {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ind-encre-douce);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.bouton {
+  flex: 0 0 auto;
+  width: 145px;
+  height: auto;
+  position: relative;
+  /*
+   * `will-change` ne déplace rien, mais met l'élément sur sa propre couche —
+   * et ce qui s'y dessine ne se rastérise pas comme sur la couche commune.
+   * L'original le porte ici ; l'oublier écartait quelques centaines de pixels.
+   */
+  will-change: transform;
+}
+
+/* ---- Les quatre cartes de métier --------------------------------------- */
+
+.cartes {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 1 0 0px;
+  gap: 24px;
+  width: 1px;
+  height: min-content;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/*
+ * Chaque carte s'arrête 32 px plus bas que la précédente — 164, 196, 228, 260 :
+ * c'est ce décalage qui les empile en éventail. La valeur voyage par la
+ * variable `--arret`, posée par le composant.
+ *
+ * C'est aussi ce cadre que `EntreeAuDefilement` transforme : la carte monte,
+ * grandit et garde son inclinaison de ±4°. La transformation reste sur le
+ * cadre, la carte dedans.
+ */
+.carteCadre {
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  position: sticky;
+  top: var(--arret);
+  z-index: 1;
+  /*
+   * `will-change` ne déplace rien, mais met l'élément sur sa propre couche —
+   * et ce qui s'y dessine ne se rastérise pas comme sur la couche commune.
+   * L'original le porte ici ; l'oublier écartait quelques centaines de pixels.
+   */
+  will-change: transform;
+}
+
+.carte {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  height: min-content;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: var(--carte-fond);
+  box-shadow:
+    0 4px 8px -4px var(--carte-ombre-proche),
+    0 12px 18px -2px var(--carte-ombre-loin);
+}
+
+/* Les quatre teintes, relevées une à une. */
+.carte[data-teinte="vert"] {
+  --carte-fond: #ecfdf5;
+  --carte-ombre-proche: rgba(34, 197, 94, 0.3);
+  --carte-ombre-loin: rgba(34, 197, 94, 0.1);
+  --carte-pastille: hsl(var(--ms-green));
+  --carte-halo: #a7f3cf;
+}
+
+.carte[data-teinte="orange"] {
+  --carte-fond: #fdf2f8;
+  --carte-ombre-proche: rgba(236, 72, 153, 0.3);
+  --carte-ombre-loin: rgba(236, 72, 153, 0.1);
+  --carte-pastille: hsl(var(--ms-pink));
+  --carte-halo: #f9c2dd;
+}
+
+.carte[data-teinte="violet"] {
+  --carte-fond: #f5f3ff;
+  --carte-ombre-proche: rgba(168, 85, 247, 0.3);
+  --carte-ombre-loin: rgba(168, 85, 247, 0.1);
+  --carte-pastille: hsl(var(--ms-mauve));
+  --carte-halo: #d6c7fb;
+}
+
+.carte[data-teinte="bleu"] {
+  --carte-fond: #eff6ff;
+  --carte-ombre-proche: rgba(59, 130, 246, 0.3);
+  --carte-ombre-loin: rgba(59, 130, 246, 0.1);
+  --carte-pastille: hsl(var(--ms-blue));
+  --carte-halo: #b9d5fd;
+}
+
+.carteTitre {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  font-family: var(--ind-font-carte);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.04em;
+  color: hsl(var(--ms-ink));
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.carteTexte {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  font-family: var(--ind-font-carte);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: hsl(var(--ms-ink) / 0.62);
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* La punaise : un carré de 12 px dans un coin, avec sa pastille dedans. */
+.pin {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  aspect-ratio: 1 / 1;
+  padding: 3px;
+  position: absolute;
+  top: 14px;
+  overflow: hidden;
+  /* le halo clair qui entoure la pastille */
+  border-radius: 999px;
+  background-color: var(--carte-halo);
+}
+
+.pin[data-pin="gauche"] {
+  left: 14px;
+}
+
+/* seule la punaise de droite passe devant : c'est le relevé */
+.pin[data-pin="droite"] {
+  right: 14px;
+  z-index: 1;
+}
+
+.pastilleCarte {
+  flex: 1 0 0px;
+  width: 1px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: var(--carte-pastille);
+}
+
+/* ---- Bas de section : les quatre atouts et le bandeau ------------------- */
+
+.bloc {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 80px;
+  width: 100%;
+  max-width: 1240px;
+  height: min-content;
+  position: relative;
+}
+
+.blocHaut {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 0;
+  width: 100%;
+  height: min-content;
+  position: relative;
+  overflow: hidden;
+}
+
+.atouts {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  gap: 40px;
+  width: 100%;
+  height: min-content;
+  position: relative;
+}
+
+.atout {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 1 0 0px;
+  gap: 20px;
+  width: 1px;
+  height: min-content;
+  padding: 40px 0 50px;
+  position: relative;
+}
+
+/*
+ * Le filet vertical entre deux atouts. Il s'efface vers le bas, sauf celui du
+ * milieu qui passe par les couleurs de la marque — c'est un relevé, pas une
+ * fantaisie.
+ */
+.trait {
+  flex: 0 0 auto;
+  align-self: stretch;
+  width: 1px;
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--ind-filet) 0%, var(--ind-fond) 100%);
+}
+
+.atouts .trait:nth-of-type(2) {
+  background: linear-gradient(
+    180deg,
+    var(--ind-filet) 0%,
+    hsl(var(--ms-blue)) 64%,
+    hsl(var(--ms-mauve)) 78%,
+    hsl(var(--ms-pink)) 90%,
+    hsl(var(--ms-green)) 100%
+  );
+}
+
+.icone {
+  display: block;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+
+.icone svg {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  fill: var(--ind-encre);
+  color: var(--ind-encre);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.atoutTexte {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 0 0 auto;
+  gap: 4px;
+  width: 100%;
+  height: min-content;
+  position: relative;
+}
+
+.atoutTitre {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  /* les titres d'atout sont en Switzer, pas dans la police de texte */
+  font-family: Poppins, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--ind-encre);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.atoutPhrase {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ind-encre-terne);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ---- Le séparateur : deux traits et une pilule ------------------------- */
+
+.separateur {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 14px;
+  width: 100%;
+  height: min-content;
+  position: relative;
+}
+
+.traitFin {
+  display: block;
+  flex: 1 0 0px;
+  width: 1px;
+  height: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+ * Le second trait est le premier retourné : son dégradé part de l'autre bord.
+ * Sans cette rotation, ses deux extrémités tombaient à côté de l'original.
+ */
+.traitFin[data-retourne] {
+  transform: rotate(180deg);
+}
+
+.traitCalque {
+  display: block;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.traitImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /*
+   * `right center`, et non `center` : le trait est plus large que son dessin,
+   * qui se retrouve donc rogné. L'original l'ancre à droite — au centre, les
+   * deux bouts du trait tombaient à côté.
+   */
+  object-position: right center;
+}
+
+.pilule {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 12px;
+  width: min-content;
+  height: min-content;
+  padding: 10px 14px;
+  position: relative;
+  border-radius: 100px;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.piluleTexte {
+  flex: 0 0 auto;
+  width: auto;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ind-encre);
+  white-space: pre;
+}
+
+/* le filet coloré posé sur le bord haut de la pilule */
+.piluleTrait {
+  z-index: 1;
+  flex: 0 0 auto;
+  width: 74px;
+  height: 0;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 37px);
+  overflow: hidden;
+  background: linear-gradient(
+    270deg,
+    var(--ind-filet) 0%,
+    hsl(var(--ms-blue)) 20%,
+    hsl(var(--ms-mauve)) 40%,
+    hsl(var(--ms-pink)) 60%,
+    hsl(var(--ms-green)) 82%,
+    var(--ind-filet) 100%
+  );
+}
+
+/* ---- Les cartes suivent leurs propres paliers --------------------------- *
+ *
+ * ATTENTION : le titre et la description des cartes ne basculent PAS aux
+ * points de rupture du site (1200 et 810 px). Leur préréglage typographique
+ * d'origine a les siens — 1920 et 1400 px — et ils sont repris tels quels,
+ * bornes comprises. Les caler sur ceux du site donnait la bonne taille à
+ * 1440 px et la mauvaise entre 1200 et 1400.
+ *
+ * Sans media query : ≥ 1920 px. Puis 1400–1919, 810–1399, et ≤ 809.
+ */
+
+@media (max-width: 1919px) and (min-width: 1400px) {
+  .carteTitre {
+    font-size: 16px;
+  }
+
+  .carteTexte {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1399px) and (min-width: 810px) {
+  .carteTitre {
+    font-size: 13px;
+  }
+
+  .carteTexte {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 809px) and (min-width: 0) {
+  .carteTitre {
+    font-size: 18px;
+  }
+
+  .carteTexte {
+    font-size: 16px;
+  }
+}
+
+/* ---- Sous 1200 px : ce qui vaut pour la tablette ET le téléphone -------- */
+
+/*
+ * Ce que `responsive.css` faisait pour cette section quand elle portait encore
+ * les classes de Framer : ses conteneurs cessent d'être larges de 1152 et
+ * 1240 px, et les rangées se replient.
+ *
+ * ATTENTION AU DÉCOUPAGE. Le reste des valeurs est réparti entre les DEUX
+ * paliers suivants, jamais mis en commun : plusieurs règles de l'original ne
+ * valent que pour la tablette, et sur téléphone la section reprend alors ses
+ * valeurs de base. Les mettre en commun raccourcissait la section de 120 px.
+ */
+@media (max-width: 1199.98px) {
+  .colonnes,
+  .entete,
+  .cartes,
+  .carteCadre,
+  .carte,
+  .bloc,
+  .blocHaut,
+  .atouts,
+  .atout,
+  .bandeau {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .colonnes,
+  .bloc {
+    flex-wrap: wrap;
+  }
+
+  .colonnes {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/* ---- Tablette : 810 – 1199,98 px --------------------------------------- */
+
+@media (min-width: 810px) and (max-width: 1199.98px) {
+  .section {
+    padding: 80px 30px;
+  }
+
+  .colonnes {
+    gap: 64px;
+  }
+
+  /* plus rien à accrocher : les deux colonnes sont l'une sous l'autre */
+  .entete {
+    top: unset;
+    flex: 0 0 auto;
+    width: 100%;
+    position: relative;
+  }
+
+  .cartes {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  /* les cartes ne s'empilent plus, elles se suivent */
+  .carteCadre {
+    top: unset;
+    position: relative;
+  }
+
+  .titre {
+    font-size: 46px;
+  }
+
+  .bloc {
+    gap: 50px;
+  }
+
+  .atouts {
+    gap: 20px;
+  }
+}
+
+/* ---- Mobile : ≤ 809,98 px ---------------------------------------------- */
+
+@media (max-width: 809.98px) {
+  /* `responsive.css` ramène ensuite les marges gauche et droite à 20 px */
+  .section {
+    padding: 50px 16px;
+  }
+
+  .colonnes {
+    gap: 58px;
+    padding: 55px 32px;
+  }
+
+  /*
+   * ÉCART ASSUMÉ AVEC LE GABARIT D'ORIGINE.
+   *
+   * Sur le site source, l'en-tête reste accroché sur téléphone — la règle qui
+   * l'en dispense ne vaut que pour la tablette. Repris tel quel ici, le
+   * résultat était inutilisable : en une seule colonne, l'en-tête collé à
+   * 164 px et les cartes collées à 164-260 px se disputent la même bande, et la
+   * pile passe par-dessus le titre.
+   *
+   * L'en-tête redevient donc normal sur téléphone. Les cartes, elles, gardent
+   * leur empilement : c'est l'effet demandé, et seul le conflit disparaît.
+   */
+  .entete {
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 31px;
+    width: 100%;
+    position: relative;
+    top: unset;
+  }
+
+  .pastille {
+    justify-content: center;
+    padding: 6px 8px;
+  }
+
+  /*
+   * La colonne de cartes garde sa largeur de base (1 px) et le plancher de
+   * 280 px de `responsive.css` la porte à 280 — soit 6 px de moins que la
+   * place disponible. Reproduit tel quel : c'est ce qui donne l'écart nul.
+   */
+  .cartes {
+    width: 1px;
+    min-width: min(100%, 280px);
+  }
+
+  .titre {
+    font-size: 39px;
+  }
+
+  .bloc {
+    gap: 30px;
+  }
+
+  .blocHaut {
+    gap: 50px;
+  }
+
+  /*
+   * Les quatre atouts s'empilent, le filet du haut disparaît et les traits
+   * deviennent horizontaux. L'écart de 40 px entre eux, lui, revient à sa
+   * valeur de base : la tablette seule le resserrait à 20.
+   */
+  .atouts {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .atouts::after {
+    --cadre-epaisseur: 0;
+  }
+
+  .atout {
+    flex: 0 0 auto;
+    align-items: center;
+    width: 100%;
+    padding: 40px 0 0;
+  }
+
+  /* le premier et le dernier ne portent pas cette marge */
+  .atout:first-of-type,
+  .atout:last-of-type {
+    padding: 0;
+  }
+
+  .trait,
+  .atouts .trait:nth-of-type(2) {
+    align-self: unset;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(180deg, var(--ind-filet) 0%, var(--ind-fond) 100%);
+  }
+
+  /*
+   * L'icône s'élargit à 280 px : `responsive.css` pose un plancher de largeur
+   * sur les colonnes des rangées repliées. Elle est centrée de toute façon, et
+   * le dessin garde ses 30 px — mais la boîte, elle, change. Reproduit tel
+   * quel. À revoir avec le commanditaire.
+   */
+  .icone {
+    min-width: min(100%, 280px);
+  }
+
+  /*
+   * Le même plancher s'applique aux deux traits du séparateur et à la pilule :
+   * à 280 px chacun ils ne tiennent plus sur une ligne, et la rangée se replie
+   * en trois — trait, pilule, trait. C'est ce que fait l'original.
+   */
+  .separateur {
+    flex-wrap: wrap;
+  }
+
+  .traitFin,
+  .pilule {
+    min-width: min(100%, 280px);
+  }
+
+  /*
+   * Le bandeau se resserre de 20 px de chaque côté — même héritage que dans
+   * `Ticker` : Framer emballait la piste dans une `<section>` imbriquée, qui
+   * recevait la marge donnée à toute section sur téléphone.
+   */
+  .piste {
+    padding: 0 20px;
+  }
+}
+
+/* ---- Ajouts propres à l'intégration Megasoft --------------------------- */
+
+/*
+ * Le calque qui rogne les filigranes.
+ *
+ * Il porte `overflow: hidden` pour que les lettres géantes soient coupées net
+ * sur les bords de la section. Il est posé À CÔTÉ du contenu, jamais autour :
+ * un ancêtre en `overflow: hidden` devient le conteneur de défilement de ses
+ * descendants `sticky`, et l'empilement des cartes cesserait de fonctionner.
+ */
+.calqueFiligranes {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/*
+ * Le bouton de contact.
+ *
+ * Le gabarit d'origine appelait un composant maison ; on reprend ici l'aspect
+ * des boutons pleins du site — pastille verte, texte blanc — dans la boîte de
+ * 145 px que `.bouton` lui réserve.
+ */
+.lienBouton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background-color: hsl(var(--ms-green));
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.lienBouton:hover {
+  background-color: hsl(var(--ms-green) / 0.9);
+}
+
+/* Les icônes Lucide sont tracées au trait : la feuille d'origine remplissait
+   ses pictogrammes, ce qui les rendrait invisibles ici. */
+.icone svg {
+  fill: none;
+  stroke: currentColor;
+}

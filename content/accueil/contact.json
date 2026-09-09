@@ -1,0 +1,38 @@
+{
+  "tailles": [
+    "1 à 10 salariés",
+    "11 à 50 salariés",
+    "51 à 200 salariés",
+    "201 à 500 salariés",
+    "Plus de 500 salariés"
+  ],
+  "secteurs": [
+    "Industrie / Production",
+    "Agroalimentaire",
+    "BTP & Construction",
+    "Transport & Logistique",
+    "Distribution & Négoce",
+    "Santé & Pharmaceutique",
+    "Énergie & Utilities",
+    "Services & Conseil",
+    "Administration & Secteur public",
+    "Autre"
+  ],
+  "coordonnees": {
+    "email": "contact@megasoft-office.com",
+    "adresse": "Résidence El Marwa, Entrée 3 n°75, Hydra – Alger",
+    "telephones": [
+      {
+        "appel": "+21323469929",
+        "affiche": "+213 (0)23 46 99 29"
+      },
+      {
+        "appel": "+21323469930",
+        "affiche": "+213 (0)23 46 99 30"
+      },
+      {
+        "affiche": "0659 68 68 60"
+      }
+    ]
+  }
+}

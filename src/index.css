@@ -1,3 +1,8 @@
+/* Déclarations @font-face des polices hébergées avec le site. En tête de
+   fichier : la règle CSS impose que tout @import précède les autres règles.
+   Fichier généré — voir scripts/recuperer-polices.mjs. */
+@import "./polices.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,93 +11,284 @@
 All colors MUST be HSL.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Les deux polices du premier écran sont préchargées depuis index.html : un
+   @font-face n'est découvert qu'après l'analyse de cette feuille, et Poppins
+   arrivait alors en plein milieu de l'intro. */
 
 @layer base {
   :root {
-    /* CAP Brand Colors */
-    --cap-blue: 197 85% 44%;
-    --cap-cyan: 187 85% 53%;
-    --cap-dark: 215 45% 25%;
-    --cap-surface: 217 33% 17%;
-    
-    /* Base Colors */
-    --background: 215 45% 25%;
-    --foreground: 210 40% 98%;
+    /* --- MEGASOFT Brand Colors (Service / Digital / Office) --- */
+    --ms-blue: 217 91% 60%;    /* MEGASOFT OFFICE - #3B82F6 */
+    --ms-green: 142 71% 45%;   /* MEGASOFT SERVICE - #22C55E */
+    --ms-mauve: 271 81% 66%;   /* transition - #A855F7 */
+    --ms-pink: 330 81% 60%;    /* MEGASOFT DIGITAL - #EC4899 */
+    --ms-dark: 222 47% 11%;
+    --ms-surface: 222 39% 15%;
+    --ms-ink: 222 47% 11%;     /* body text on the new light theme */
+    --ms-paper: 40 20% 96%;    /* off-white section background */
 
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
+    /* Base Colors - light theme (myexobrain-inspired) */
+    --background: 40 20% 97%;
+    --foreground: 222 47% 11%;
 
-    --popover: 217 33% 17%;
-    --popover-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --primary: 197 85% 44%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 217 91% 60%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 32% 18%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 40 15% 93%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 40 15% 93%;
+    --muted-foreground: 222 15% 40%;
 
-    --accent: 187 85% 53%;
+    --accent: 142 71% 45%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 215 20% 25%;
-    --input: 217 33% 17%;
-    --ring: 197 85% 44%;
+    --border: 222 15% 88%;
+    --input: 222 15% 88%;
+    --ring: 217 91% 60%;
 
-    --radius: 1rem;
+    --radius: 1.25rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(var(--cap-blue)) 0%, hsl(var(--cap-cyan)) 100%);
-    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(var(--cap-blue) / 0.3) 0%, transparent 70%);
-    
+    --gradient-hero: linear-gradient(135deg, hsl(var(--ms-blue)) 0%, hsl(var(--ms-green)) 100%);
+    --gradient-glow: radial-gradient(circle at 50% 50%, hsl(var(--ms-blue) / 0.3) 0%, transparent 70%);
+
     /* Shadows */
-    --shadow-glow: 0 0 40px hsl(var(--cap-cyan) / 0.3);
-    --shadow-card: 0 20px 60px hsl(0 0% 0% / 0.5);
-    
+    --shadow-glow: 0 0 40px hsl(var(--ms-blue) / 0.3);
+    --shadow-card: 0 20px 60px hsl(222 47% 11% / 0.08);
+
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+/* ===========================================================================
+   BLOG — transitions entre pages et ambiance de fond
+   ===========================================================================
+   Les pages du blog sont des documents HTML distincts : passer d'un article à
+   un autre est une vraie navigation, pas un changement d'état dans une
+   application. L'API View Transitions permet malgré tout d'enchaîner les deux
+   documents en fondu, et de faire « voyager » la couverture de l'article depuis
+   sa vignette jusqu'à sa pleine largeur — le tout en CSS, sans JavaScript.
 
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', sans-serif;
-  }
+   Les navigateurs qui ne la prennent pas encore en charge affichent une
+   navigation classique : rien ne casse, la transition est simplement absente.
+   ========================================================================= */
+@view-transition {
+  navigation: auto;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 800;
-  }
+/* Cadence commune à tous les éléments qui « voyagent » d'une page à l'autre —
+   notamment les couvertures d'articles. Courbe très décélérée : départ franc,
+   arrivée posée, ce qui rend le déplacement lisible plutôt que brusque. */
+::view-transition-group(*) {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-  /* Particle canvas background */
-  #particle-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
+/* Le corps de la page : l'ancien s'efface vers le haut, le nouveau monte et se
+   révèle juste après. Le léger décalage évite la superposition confuse des deux
+   contenus au même instant. */
+::view-transition-old(root) {
+  animation: vt-sortie 200ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-entree 440ms 110ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes vt-sortie {
+  to { opacity: 0; transform: translateY(-14px); }
+}
+@keyframes vt-entree {
+  from { opacity: 0; transform: translateY(26px) scale(0.994); }
+}
+
+/* ---- Éléments qui ne doivent PAS bouger ------------------------------------
+   L'en-tête et le pied de page sont les mêmes composants d'une page à l'autre.
+   Sans identité propre, ils étaient capturés dans l'instantané de `root` et
+   subissaient donc le fondu et le glissement : la barre semblait sauter à
+   chaque clic. Nommés, ils sont extraits de l'animation et restent immobiles.
+
+   L'identité est posée sur les éléments réels — le <header> en position fixed,
+   le <footer> — et non sur leurs conteneurs, dont la hauteur est nulle et qui
+   ne produisaient qu'un instantané vide.
+
+   Les identifiants `ms-header` / `ms-footer` existent sur TOUTES les pages :
+   celles du blog (BlogShell) comme celles de l'application (Layout). C'est la
+   condition pour que le navigateur reconnaisse le même élément d'un document à
+   l'autre — nommé d'un seul côté, il le traitait comme un élément neuf, et la
+   barre disparaissait avec l'ancienne page avant de resurgir d'un bloc. */
+#ms-header header {
+  view-transition-name: entete;
+}
+#ms-footer footer {
+  view-transition-name: pied;
+}
+
+/* Un fondu court plutôt qu'aucune animation.
+   Immobiles, oui — mais pas figés : au départ du haut de l'accueil, la barre
+   est en verre sombre sur la vidéo, et devient blanche sur le blog. Sans
+   animation, ce changement d'habillage se faisait par une coupure sèche au
+   milieu d'un mouvement par ailleurs continu. Entre deux pages où la barre est
+   identique, ce fondu croise deux images identiques : il ne se voit pas. */
+::view-transition-group(entete),
+::view-transition-group(pied) {
+  animation-duration: 260ms;
+}
+::view-transition-old(entete),
+::view-transition-old(pied) {
+  animation: vt-fond-sortie 200ms ease-out both;
+}
+::view-transition-new(entete),
+::view-transition-new(pied) {
+  animation: vt-fond-entree 260ms ease-in both;
+}
+
+/* ---- Le fond ---------------------------------------------------------------
+   Il change de motif et de couleur selon l'article. Un fondu plus long et plus
+   doux que le reste : le décor se métamorphose pendant que le texte, lui, a
+   déjà fini de se mettre en place. */
+::view-transition-group(fond) {
+  animation-duration: 760ms;
+}
+::view-transition-old(fond) {
+  animation: vt-fond-sortie 300ms ease-out both;
+}
+::view-transition-new(fond) {
+  animation: vt-fond-entree 760ms ease-in-out both;
+}
+
+@keyframes vt-fond-sortie {
+  to { opacity: 0; }
+}
+@keyframes vt-fond-entree {
+  from { opacity: 0; }
+}
+
+/* ---------------------------------------------------------------------------
+   MOUVEMENT DES FONDS
+   ---------------------------------------------------------------------------
+   Le tracé en pointillé qui dérive lentement est la signature animée du site.
+   Ces classes la rendent réutilisable par n'importe quel motif de fond, et non
+   plus seulement par les flèches du blog. Toutes reposent sur des propriétés
+   que le compositeur sait animer sans repeindre la page.
+   ------------------------------------------------------------------------- */
+@keyframes fond-derive {
+  to { stroke-dashoffset: -320; }
+}
+@keyframes mvt-defilement {
+  to { stroke-dashoffset: -480; }
+}
+@keyframes mvt-defilement-inverse {
+  to { stroke-dashoffset: 480; }
+}
+@keyframes mvt-rotation {
+  to { transform: rotate(360deg); }
+}
+@keyframes mvt-pulsation {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.85; }
+}
+
+/* ---------------------------------------------------------------------------
+   DÉMONSTRATION MEGA ERP
+   ---------------------------------------------------------------------------
+   L'écran ne doit pas seulement changer : il doit se CONSTRUIRE. Les chiffres
+   se comptent, les barres poussent, les colonnes montent, les lignes se
+   déposent l'une après l'autre. C'est ce qui donne l'impression d'une
+   application qui charge de vraies données, plutôt que d'une image.
+   ------------------------------------------------------------------------- */
+@keyframes erp-entree {
+  from { opacity: 0; transform: translateY(14px) scale(0.994); }
+  to { opacity: 1; transform: none; }
+}
+/* La barre part de zéro et s'arrête sur la largeur posée en style inline. */
+@keyframes erp-barre {
+  from { width: 0; }
+}
+/* La colonne d'histogramme pousse depuis sa base. */
+@keyframes erp-colonne {
+  from { transform: scaleY(0); opacity: 0; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+/* Balayage lumineux qui traverse le panneau au changement de module. */
+@keyframes erp-balayage {
+  from { transform: translateX(-120%) skewX(-14deg); opacity: 0; }
+  35% { opacity: 1; }
+  to { transform: translateX(220%) skewX(-14deg); opacity: 0; }
+}
+/* Notification qui se glisse depuis la droite, puis se retire. */
+@keyframes erp-notif {
+  0% { opacity: 0; transform: translateX(28px); }
+  12%, 76% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateX(28px); }
+}
+/* Pastille « en direct » qui respire. */
+@keyframes erp-direct {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.72); }
+}
+/* Halo qui enfle sous l'icône juste avant le clic du curseur. */
+@keyframes erp-vise {
+  from { transform: scale(0.6); opacity: 0; }
+  to { transform: scale(1.35); opacity: 0; }
+  50% { opacity: 0.5; }
+}
+
+.erp-direct { animation: erp-direct 2.2s ease-in-out infinite; }
+.erp-balayage { animation: erp-balayage 900ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.erp-notif { animation: erp-notif 4.2s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .erp-direct,
+  .erp-balayage,
+  .erp-notif,
+  [style*="erp-barre"],
+  [style*="erp-colonne"],
+  .erp-ecran {
+    animation: none !important;
   }
-  
-  /* Texture overlay */
-  .texture-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 0h40v40H0V0zm1 1h38v38H1V1z" fill="%23ffffff" fill-opacity="0.02" fill-rule="evenodd"/%3E%3C/svg%3E');
+}
+
+.fond-fleche { animation: fond-derive 26s linear infinite; }
+.mvt-defile { animation: mvt-defilement 24s linear infinite; }
+.mvt-defile-lent { animation: mvt-defilement 46s linear infinite; }
+.mvt-defile-inverse { animation: mvt-defilement-inverse 30s linear infinite; }
+.mvt-tourne { animation: mvt-rotation 120s linear infinite; transform-origin: center; transform-box: fill-box; }
+.mvt-tourne-vite { animation: mvt-rotation 55s linear infinite; transform-origin: center; transform-box: fill-box; }
+.mvt-pulse { animation: mvt-pulsation 7s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fond-fleche,
+  .mvt-defile,
+  .mvt-defile-lent,
+  .mvt-defile-inverse,
+  .mvt-tourne,
+  .mvt-tourne-vite,
+  .mvt-pulse {
+    animation: none;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-old(fond),
+  ::view-transition-new(fond),
+  ::view-transition-old(entete),
+  ::view-transition-new(entete),
+  ::view-transition-old(pied),
+  ::view-transition-new(pied) {
+    animation: none;
+  }
+  ::view-transition-group(*) {
+    animation-duration: 1ms;
   }
 }
 
@@ -101,7 +297,111 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  /* La page est montée derrière le rideau d'intro, qui verrouille le scroll du
+     body. Sans gouttière réservée, la barre de défilement disparaît puis
+     revient au lever du rideau : la largeur du viewport change de ~15 px et
+     TOUTE la mise en page saute d'un coup — exactement l'à-coup que l'on
+     cherche à supprimer. */
+  html {
+    scrollbar-gutter: stable;
+    /* Filet de sécurité mobile : les filigranes, halos et cercles décoratifs
+       sont volontairement plus larges que leur section. Chaque section les
+       rogne déjà (`overflow-hidden`), mais il suffit qu'un seul élément décoré
+       oublie de le faire pour que la page devienne balayable latéralement — et
+       sur téléphone, une page qui glisse de côté donne immédiatement
+       l'impression d'un site cassé.
+
+       `clip` et non `hidden` : `hidden` ferait de la racine un conteneur de
+       défilement, ce qui casserait le sommaire collant des articles
+       (`position: sticky`) et la gouttière d'ascenseur ci-dessus. */
+    overflow-x: clip;
+    /* Safari mobile grossit de lui-même le texte des blocs qu'il juge trop
+       étroits après une rotation d'écran : les tailles calibrées ici s'en
+       trouvaient désaccordées d'un bloc à l'autre. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter Tight', sans-serif;
+    overflow-x: clip;
+  }
+
+  /* Hauteur du Hero.
+     `vh` désigne, sur mobile, la fenêtre BARRE D'URL RÉTRACTÉE : le Hero
+     mesurait donc toujours plus que l'écran réellement disponible à
+     l'ouverture, et le bas de sa composition — les points de progression des
+     scènes — restait sous la ligne de flottaison. `svh` désigne la petite
+     fenêtre, celle que l'on a effectivement sous les yeux en arrivant.
+     Déclaré en deux temps pour que les navigateurs qui ignorent `svh`
+     conservent l'ancien comportement plutôt qu'aucune hauteur. */
+  .hero-plein {
+    min-height: 92vh;
+  }
+  @supports (height: 100svh) {
+    .hero-plein {
+      min-height: 92svh;
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  /* --- Identité : la sélection de texte porte le Bleu Office --- */
+  ::selection {
+    background: hsl(var(--ms-blue));
+    color: white;
+  }
+
+  /* --- Identité : focus clavier visible, en Bleu Office --- */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ms-blue));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* --- Identité : ascenseur discret, pouce capsule Encre --- */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--ms-ink) / 0.35) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--ms-ink) / 0.3);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--ms-blue));
+    background-clip: content-box;
+  }
+}
+
+/*
+ * Piste de carrousel : on masque la barre de défilement native.
+ *
+ * Le conteneur reste DÉFILABLE — au doigt, au trackpad, à la molette et au
+ * clavier. Seule la barre disparaît, parce que la commande est ailleurs :
+ * flèches, pastilles de page et bouton de défilement automatique, juste
+ * au-dessus de la piste. Laisser la barre en plus ferait doublon, et sur
+ * Windows elle réserve une bande grise sous les cartes.
+ */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }

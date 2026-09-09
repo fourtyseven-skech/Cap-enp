@@ -1,0 +1,24 @@
+{
+  "chiffres": [
+    {
+      "valeur": 300,
+      "libelle": "Clients accompagnés",
+      "suffixe": "+"
+    },
+    {
+      "valeur": 11,
+      "libelle": "Logiciels métiers",
+      "suffixe": ""
+    },
+    {
+      "valeur": 12000,
+      "libelle": "Utilisateurs actifs",
+      "suffixe": "+"
+    },
+    {
+      "valeur": 15,
+      "libelle": "Croissance annuelle",
+      "suffixe": "%"
+    }
+  ]
+}

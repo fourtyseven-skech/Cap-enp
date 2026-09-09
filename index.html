@@ -1,23 +1,632 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Club CAP - L'Excellence Polytechnique</title>
-    <meta name="description" content="Club d'Activité Polyvalente de l'École Nationale Polytechnique. Innovation, Collaboration et Excellence depuis 2010." />
-    <meta name="author" content="Club CAP" />
+    
+    <link rel="icon" type="image/png" href="/megasoft-favicon.png" />
 
-    <meta property="og:title" content="Club CAP - L'Excellence Polytechnique" />
-    <meta property="og:description" content="Club d'Activité Polyvalente de l'École Nationale Polytechnique. Innovation, Collaboration et Excellence depuis 2010." />
+    <!--
+      Polices servies par le site lui-même (public/fonts/, déclarées dans
+      src/polices.css).
+
+      Elles venaient de Google Fonts, ce qui imposait trois connexions et deux
+      allers-retours AVANT qu'une lettre ne s'affiche dans la bonne police :
+      ouvrir fonts.googleapis.com, y lire une feuille de style, découvrir
+      seulement là les .woff2 sur fonts.gstatic.com, ouvrir ce troisième
+      domaine. Sur une connexion mobile, chaque domaine neuf coûte une
+      résolution DNS et une poignée de main TLS — le temps que tout arrive, le
+      visiteur avait déjà lu le haut de la page dans la police de secours, dont
+      les lettres n'ont ni la même largeur ni la même graisse : c'est cette
+      version-là qu'il voyait, filigranes compris.
+
+      Servis d'ici, les fichiers arrivent sur la connexion déjà ouverte, et les
+      deux polices du premier écran sont annoncées dès la première ligne du
+      document. `crossorigin` est obligatoire même pour un fichier du même site :
+      les polices sont toujours demandées en mode anonyme, et sans cet attribut
+      le préchargement compterait pour une requête différente — le fichier
+      serait téléchargé deux fois.
+    -->
+    <link rel="preload" href="/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/poppins-800-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <title>Megasoft - Éditeur de logiciels de gestion en Algérie depuis 1990</title>
+    <meta name="description" content="Megasoft, éditeur de logiciels de gestion d'entreprise en Algérie depuis 1990. Office, Digital et Services : ERP, gestion commerciale, finance, RH, GPAO, GMAO, TMS, WMS, MES, cloud et IA pour TPE, PME et entreprises étatiques." />
+    <meta name="author" content="Megasoft" />
+
+    <!-- 2. OPEN GRAPH (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:title" content="Megasoft - Éditeur de logiciels de gestion en Algérie depuis 1990" />
+    <meta property="og:description" content="Office, Digital et Services : ERP, gestion commerciale, finance, RH, GPAO, GMAO, TMS, WMS, MES, cloud et IA." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:url" content="https://megasoft-office.com/" />
 
+    <meta property="og:image" content="https://megasoft-office.com/megasoft-favicon.png" />
+
+    <!-- Dimensions recommandées (optionnel mais conseillé) -->
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- 3. TWITTER CARD -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:image" content="https://megasoft-office.com/megasoft-favicon.png" />
+
+    <link rel="canonical" href="https://megasoft-office.com/" />
+
+    <!--
+      4. DONNÉES STRUCTURÉES (JSON-LD) — lot 1 du cadrage MEGA-WEB-003.
+
+      Placé en HTML statique, et non injecté par React : c'est le seul contenu
+      sémantique du site aujourd'hui lisible par les robots qui n'exécutent pas
+      JavaScript (GPTBot, ClaudeBot, PerplexityBot). Il permet à un moteur
+      génératif d'attribuer correctement l'entreprise, son ancienneté, son
+      métier et ses coordonnées, même avant la pré-génération du lot 2.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://megasoft-office.com/#organization",
+        "name": "Megasoft Office",
+        "alternateName": "Megasoft",
+        "url": "https://megasoft-office.com/",
+        "logo": "https://megasoft-office.com/megasoft-favicon.png",
+        "foundingDate": "1990",
+        "description": "Éditeur algérien de logiciels de gestion d'entreprise depuis 1990. Trois pôles — Office, Digital et Services — couvrant l'ERP, la gestion commerciale, la finance, les RH, la GPAO, la GMAO, le TMS, le WMS, le MES, le cloud et l'IA pour TPE, PME et entreprises étatiques.",
+        "areaServed": { "@type": "Country", "name": "Algérie" },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Résidence El Marwa, Entrée 3 n°75, Hydra",
+          "addressLocality": "Alger",
+          "addressCountry": "DZ"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+213-23-46-99-29",
+          "email": "contact@megasoft-office.com",
+          "contactType": "sales",
+          "availableLanguage": ["fr", "ar"]
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Les trois pôles Megasoft",
+          "itemListElement": [
+            {
+              "@type": "OfferCatalog",
+              "name": "Megasoft Office",
+              "description": "La suite de gestion : le socle métier de l'entreprise.",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ERP", "description": "Progiciel de gestion intégré : un référentiel unique pour tous les métiers." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gestion commerciale", "description": "Clients, fournisseurs, devis, facturation, livraisons, stocks et règlements." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Finance", "description": "Comptabilité générale et analytique aux normes SCF et IAS/IFRS, trésorerie, états fiscaux." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "RH", "description": "Paie, dossiers du personnel et déclarations périodiques, secteur privé comme public." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "GPAO", "description": "Gestion de production assistée par ordinateur : nomenclatures, ordres de fabrication, ordonnancement." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "GMAO", "description": "Gestion de maintenance assistée par ordinateur : maintenance préventive et curative des équipements." } }
+              ]
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Megasoft Digital",
+              "description": "Solutions digitales, spécifiques et cloud.",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "TMS", "description": "Transport Management System : planification des tournées, suivi de flotte, coût au kilomètre." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "WMS", "description": "Warehouse Management System : réception, adressage, préparation de commandes et inventaires, pour un entrepôt piloté à l'emplacement près." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "MES", "description": "Manufacturing Execution System : pilotage de l'atelier en temps réel et traçabilité." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Solutions particulières", "description": "Développements spécifiques adaptés aux contraintes propres à chaque activité." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cloud", "description": "Outils de gestion hébergés et sauvegardés, accessibles sans infrastructure locale." } }
+              ]
+            },
+            {
+              "@type": "OfferCatalog",
+              "name": "Megasoft Services",
+              "description": "Conseil, intégration et intelligence artificielle.",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Conseil", "description": "Cadrage du besoin, audit de l'existant et choix de la trajectoire avant projet." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Intégration SAP", "description": "Déploiement et intégration de SAP dans le système d'information existant." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "My Exobrain", "description": "Agent IA dédié à la supply chain : évaluation des risques, recommandation d'actions, pilotage des approvisionnements, stocks et livraisons." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "IA", "description": "Intelligence artificielle appliquée aux processus métiers : automatisation, analyse, aide à la décision." } }
+              ]
+            }
+          ]
+        },
+        "knowsAbout": [
+          "Progiciel de gestion intégré (ERP)",
+          "Manufacturing Execution System (MES)",
+          "Transport Management System (TMS)",
+          "Warehouse Management System (WMS)",
+          "Gestion de production assistée par ordinateur (GPAO)",
+          "Gestion de maintenance assistée par ordinateur (GMAO)",
+          "Intégration SAP",
+          "Intelligence artificielle appliquée à la gestion",
+          "Système Comptable Financier (SCF)",
+          "Normes IAS/IFRS"
+        ]
+      }
+    </script>
   </head>
 
   <body>
+    <!--
+      Préchauffage de la première scène du Hero.
+
+      Cet élément est dans le HTML statique : son téléchargement démarre pendant
+      l'analyse du document, avant même que le bundle JS ne soit arrivé. Tout se
+      passe sur le réseau et sur le thread média — ZÉRO travail sur le thread
+      principal, donc l'intro n'en perd pas une frame. Quand React monte enfin
+      son vrai <video>, les octets sont déjà en cache : la lecture démarre
+      instantanément. App.tsx retire cet élément une fois le relais pris.
+    -->
+    <video
+      id="hero-warmup"
+      preload="auto"
+      muted
+      playsinline
+      aria-hidden="true"
+      tabindex="-1"
+      style="position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none"
+    >
+      <!-- Mêmes sources, et surtout mêmes conditions, que le <video> du Hero :
+           préchauffer la version large pour un téléphone téléchargerait deux
+           fichiers au lieu d'un, et le plus lourd des deux ne servirait pas. -->
+      <source src="/videos/hero-mes-720.mp4" type="video/mp4" media="(min-width: 768px)" />
+      <source src="/videos/hero-mes-480.mp4" type="video/mp4" />
+    </video>
+
+    <!--
+      ================================================================
+      SQUELETTE DE CHARGEMENT
+      ================================================================
+
+      Ce que voyait un visiteur sur connexion lente : une page vide. Le
+      document et sa feuille de style pèsent une vingtaine de kilo-octets et
+      arrivent vite ; le JavaScript en pèse dix fois plus, et rien ne s'affiche
+      tant qu'il n'est pas arrivé, analysé, exécuté. Entre les deux, plusieurs
+      secondes de blanc — l'attente la plus pénible qui soit, parce qu'elle
+      n'annonce rien : impossible de savoir si le site charge, s'il est cassé,
+      ou si l'on s'est trompé d'adresse.
+
+      Le squelette occupe cet intervalle. Il n'est pas un écran d'attente
+      générique : il dessine la page réelle — la barre de navigation, le titre
+      du Hero sur deux lignes, le bouton, la carte de statistiques qui chevauche
+      le bas du Hero, le début de la section suivante — aux mêmes positions et
+      aux mêmes tailles. Quand le site prend le relais, rien ne bouge : les
+      blocs gris se remplissent de leur contenu. L'attente est alors lue comme
+      un remplissage, pas comme un rechargement.
+
+      Trois choix techniques en découlent :
+
+      · Écrit ici, en HTML statique, avec ses styles en ligne. Un squelette
+        rendu par React arriverait en même temps que ce qu'il est censé
+        remplacer — c'est-à-dire trop tard pour servir à quoi que ce soit.
+
+      · Le balayage est une TRANSLATION, pas un dégradé qui se déplace. Une
+        animation de `background-position` se repeint à chaque image sur le fil
+        principal — celui-là même qui est en train d'analyser le JavaScript :
+        l'animation saccaderait exactement pendant les secondes où elle doit
+        rassurer. Une translation, elle, est confiée au fil de composition et
+        reste fluide même quand le reste est bloqué.
+
+      · Aucun texte, `aria-hidden` : un lecteur d'écran n'annonce pas des
+        formes vides, et le rôle `status` porté par le conteneur suffit à dire
+        « chargement en cours ».
+    -->
+    <style>
+      /*
+        LE SQUELETTE NAÎT INVISIBLE, ET LE RESTE SI TOUT VA BIEN.
+        --------------------------------------------------------
+        Il s'affichait à chaque visite, y compris sur une connexion rapide où
+        l'application était prête en quelques centaines de millisecondes : le
+        visiteur voyait un écran de chargement pour un chargement qui n'avait
+        pas lieu, ce qui donne l'impression d'un site lent alors qu'il ne l'est
+        pas.
+
+        Il attend donc son tour. Un minuteur posé plus bas ne le révèle qu'au
+        bout de MS_SQUELETTE_DELAI millisecondes ; si React a peint avant,
+        main.tsx annule le minuteur et le squelette est retiré sans avoir été vu
+        une seule image.
+
+        Pendant ce délai, le visiteur ne regarde pas du vide : la page d'accueil
+        est PRÉ-GÉNÉRÉE (voir scripts/build-accueil.mjs), donc le document
+        contient déjà le contenu réel, mis en page. Le squelette n'a plus à
+        masquer une page blanche — il ne sert qu'au cas où le chargement traîne
+        vraiment.
+
+        `visibility` autant qu'`opacity` : une opacité nulle laisserait le
+        calque intercepter les clics sur la page qui est dessous.
+      */
+      #ms-squelette {
+        position: fixed;
+        inset: 0;
+        z-index: 9998;
+        overflow: hidden;
+        background: hsl(40 20% 97%);
+        opacity: 0;
+        visibility: hidden;
+        /* Retiré par src/main.tsx dès que React a peint. */
+        transition: opacity 0.32s ease;
+      }
+
+      /* Posée par le minuteur, et par lui seul : le chargement dure. */
+      #ms-squelette.ms-squelette--visible {
+        opacity: 1;
+        visibility: visible;
+      }
+      /* Après `--visible` dans la feuille : à spécificité égale, c'est l'ordre
+         qui tranche, et l'effacement doit toujours gagner. */
+      #ms-squelette.ms-squelette--parti {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        animation: none;
+      }
+
+      /* Largeurs du conteneur : les mêmes paliers que le site, pour que les
+         blocs tombent exactement là où le contenu tombera. */
+      .sq-conteneur {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+      @media (min-width: 640px)  { .sq-conteneur { max-width: 640px } }
+      @media (min-width: 768px)  { .sq-conteneur { max-width: 768px } }
+      @media (min-width: 1024px) { .sq-conteneur { max-width: 1024px } }
+      @media (min-width: 1280px) { .sq-conteneur { max-width: 1280px } }
+      @media (min-width: 1536px) { .sq-conteneur { max-width: 1400px } }
+
+      /* --- La brique de base : un bloc gris que la lumière traverse --- */
+      .sq {
+        position: relative;
+        overflow: hidden;
+        display: block;
+        border-radius: 8px;
+        background: hsl(40 10% 89%);
+      }
+      .sq::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        transform: translateX(-100%);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.9),
+          transparent
+        );
+        animation: sq-balayage 1.5s infinite;
+      }
+      /* Sur le fond sombre du Hero, le même bloc s'inverse : un gris clair
+         translucide, traversé d'une lumière plus discrète. */
+      .sq-inv { background: rgba(255, 255, 255, 0.07) }
+      .sq-inv::after {
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.14),
+          transparent
+        );
+      }
+      @keyframes sq-balayage {
+        100% { transform: translateX(100%) }
+      }
+
+      /* --- Barre de navigation --- */
+      .sq-entete {
+        position: absolute;
+        top: 0.75rem;
+        left: 0;
+        right: 0;
+        padding: 0 1rem;
+        z-index: 2;
+      }
+      .sq-pilule {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        max-width: 72rem;
+        margin: 0 auto;
+        height: 44px;
+        padding: 0 0.75rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .sq-liens { display: none; gap: 0.75rem }
+      .sq-actions { display: none; gap: 0.5rem }
+      @media (min-width: 768px) {
+        .sq-entete { top: 1rem }
+        .sq-pilule { padding: 0 1rem }
+        .sq-actions { display: flex }
+      }
+      @media (min-width: 1024px) {
+        .sq-liens { display: flex }
+        .sq-burger { display: none }
+      }
+
+      /* --- Hero --- */
+      .sq-hero {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 92vh;
+        padding: 7rem 1.25rem 7rem;
+        text-align: center;
+        background: hsl(222 47% 11%);
+      }
+      @supports (height: 100svh) {
+        .sq-hero { min-height: 92svh }
+      }
+      /* Le halo bleu du Hero, présent dès le premier écran du vrai site. */
+      .sq-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 30% 20%,
+          hsl(217 91% 60% / 0.18),
+          transparent 60%
+        );
+      }
+      .sq-hero-contenu {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 48rem;
+      }
+
+      /* --- Le monogramme et son anneau : le seul élément qui dit
+             explicitement « ça travaille ». Il est posé là où le M du site
+             apparaîtra, sous le bouton d'appel. --- */
+      .sq-marque {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 84px;
+        height: 84px;
+        margin-top: 2rem;
+      }
+      .sq-m {
+        width: 40px;
+        height: auto;
+        color: #fff;
+        opacity: 0.9;
+      }
+      .sq-anneau {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.14);
+        border-top-color: hsl(217 91% 60%);
+        animation: sq-tourne 0.95s linear infinite;
+      }
+      @keyframes sq-tourne {
+        100% { transform: rotate(360deg) }
+      }
+
+      /* --- Carte de statistiques, chevauchant le bas du Hero --- */
+      .sq-stats-zone { margin-top: -4rem; position: relative; z-index: 1 }
+      .sq-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 2rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        overflow: hidden;
+      }
+      .sq-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1.5rem;
+        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      @media (min-width: 768px) {
+        .sq-stats-zone { margin-top: -5rem }
+        .sq-stats { grid-template-columns: repeat(4, 1fr) }
+        .sq-stat { align-items: flex-start; padding: 2rem; border-bottom: 0 }
+      }
+
+      /* --- Début de la section suivante --- */
+      .sq-section { padding: 6rem 0 }
+      .sq-colonnes { display: grid; gap: 1rem }
+      @media (min-width: 768px) {
+        .sq-colonnes { grid-template-columns: repeat(3, 1fr); gap: 2.5rem }
+      }
+      .sq-carte {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1.5rem;
+        background: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 1rem;
+      }
+      @media (min-width: 768px) {
+        .sq-carte { background: none; border: 0; padding: 0 }
+      }
+
+      /*
+        Le panel d'administration est servi par CE document (repli SPA de
+        Netlify) : sans distinction, on y verrait se dessiner la page d'accueil
+        avant que le formulaire de connexion n'apparaisse — un squelette qui
+        annonce autre chose que ce qui arrive est pire que pas de squelette. Le
+        panel n'ayant qu'un seul écran d'entrée, il ne reçoit que le monogramme
+        et son anneau, sur le fond clair qui est le sien.
+      */
+      .ms-squelette--admin { background: hsl(210 40% 96%) }
+      .ms-squelette--admin .sq-entete,
+      .ms-squelette--admin .sq-stats-zone,
+      .ms-squelette--admin .sq-section,
+      .ms-squelette--admin .sq-hero-contenu > .sq {
+        display: none;
+      }
+      .ms-squelette--admin .sq-hero { background: none; padding: 0 }
+      .ms-squelette--admin .sq-hero::before { display: none }
+      .ms-squelette--admin .sq-marque { margin-top: 0 }
+      .ms-squelette--admin .sq-m { color: hsl(222 47% 11%); opacity: 0.55 }
+      .ms-squelette--admin .sq-anneau { border-color: rgba(15, 23, 42, 0.1); border-top-color: hsl(217 91% 60%) }
+
+      /*
+        Animations réduites : le balayage et la rotation disparaissent — c'est
+        exactement le mouvement décoratif que ce réglage demande d'éviter. Le
+        squelette reste lisible, l'anneau devient un cercle bleu fixe, et une
+        respiration très lente de l'opacité suffit à dire que quelque chose est
+        en cours.
+      */
+      @media (prefers-reduced-motion: reduce) {
+        .sq::after { display: none }
+        .sq-anneau {
+          animation: none;
+          border-color: hsl(217 91% 60% / 0.5);
+        }
+        #ms-squelette.ms-squelette--visible { animation: sq-respire 2.4s ease-in-out infinite }
+        @keyframes sq-respire {
+          50% { opacity: 0.75 }
+        }
+      }
+    </style>
+
+    <div id="ms-squelette" role="status" aria-label="Chargement du site" aria-live="polite">
+      <div aria-hidden="true">
+        <div class="sq-entete">
+          <div class="sq-pilule">
+            <span class="sq sq-inv" style="width: 132px; height: 18px"></span>
+            <span class="sq-liens">
+              <span class="sq sq-inv" style="width: 92px; height: 12px"></span>
+              <span class="sq sq-inv" style="width: 64px; height: 12px"></span>
+              <span class="sq sq-inv" style="width: 34px; height: 12px"></span>
+              <span class="sq sq-inv" style="width: 86px; height: 12px"></span>
+              <span class="sq sq-inv" style="width: 74px; height: 12px"></span>
+              <span class="sq sq-inv" style="width: 68px; height: 12px"></span>
+            </span>
+            <span class="sq-actions">
+              <span class="sq sq-inv" style="width: 62px; height: 26px; border-radius: 999px"></span>
+              <span class="sq sq-inv" style="width: 132px; height: 26px; border-radius: 999px"></span>
+            </span>
+            <span class="sq sq-inv sq-burger" style="width: 20px; height: 14px"></span>
+          </div>
+        </div>
+
+        <div class="sq-hero">
+          <div class="sq-hero-contenu">
+            <!-- Le titre du Hero : deux lignes sur téléphone, comme le vrai. -->
+            <span class="sq sq-inv" style="width: 92%; max-width: 620px; height: 30px"></span>
+            <span class="sq sq-inv" style="width: 74%; max-width: 500px; height: 30px; margin-top: 12px"></span>
+            <span class="sq sq-inv" style="width: 66%; max-width: 400px; height: 14px; margin-top: 22px"></span>
+            <span class="sq sq-inv" style="width: 186px; height: 46px; border-radius: 999px; margin-top: 30px"></span>
+
+            <div class="sq-marque">
+              <span class="sq-anneau"></span>
+              <!-- Le monogramme officiel, tracé comme dans le composant React :
+                   deux traits à 45°, terminaisons rondes. -->
+              <svg class="sq-m" viewBox="-3 -3 233 139" aria-hidden="true" focusable="false">
+                <g
+                  stroke="currentColor"
+                  stroke-width="50"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  fill="none"
+                >
+                  <path d="M23 106 L104 27" />
+                  <path d="M118 106 L201 27 L205 106" />
+                </g>
+              </svg>
+            </div>
+
+            <span class="sq sq-inv" style="width: 148px; height: 10px; margin-top: 26px"></span>
+            <span class="sq sq-inv" style="width: 46px; height: 6px; border-radius: 999px; margin-top: 12px"></span>
+          </div>
+        </div>
+
+        <div class="sq-stats-zone">
+          <div class="sq-conteneur">
+            <div class="sq-stats">
+              <div class="sq-stat">
+                <span class="sq" style="width: 84px; height: 26px"></span>
+                <span class="sq" style="width: 112px; height: 10px"></span>
+              </div>
+              <div class="sq-stat">
+                <span class="sq" style="width: 56px; height: 26px"></span>
+                <span class="sq" style="width: 104px; height: 10px"></span>
+              </div>
+              <div class="sq-stat">
+                <span class="sq" style="width: 96px; height: 26px"></span>
+                <span class="sq" style="width: 118px; height: 10px"></span>
+              </div>
+              <div class="sq-stat">
+                <span class="sq" style="width: 62px; height: 26px"></span>
+                <span class="sq" style="width: 126px; height: 10px"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sq-section">
+          <div class="sq-conteneur">
+            <span class="sq" style="width: 148px; height: 26px; border-radius: 999px"></span>
+            <span class="sq" style="width: 94%; max-width: 720px; height: 26px; margin-top: 2rem"></span>
+            <span class="sq" style="width: 82%; max-width: 640px; height: 26px; margin-top: 12px"></span>
+            <div class="sq-colonnes" style="margin-top: 2.5rem">
+              <div class="sq-carte">
+                <span class="sq" style="width: 32px; height: 32px"></span>
+                <span class="sq" style="width: 78%; height: 16px"></span>
+                <span class="sq" style="width: 100%; height: 10px"></span>
+                <span class="sq" style="width: 88%; height: 10px"></span>
+              </div>
+              <div class="sq-carte">
+                <span class="sq" style="width: 32px; height: 32px"></span>
+                <span class="sq" style="width: 86%; height: 16px"></span>
+                <span class="sq" style="width: 100%; height: 10px"></span>
+                <span class="sq" style="width: 74%; height: 10px"></span>
+              </div>
+              <div class="sq-carte">
+                <span class="sq" style="width: 32px; height: 32px"></span>
+                <span class="sq" style="width: 64%; height: 16px"></span>
+                <span class="sq" style="width: 100%; height: 10px"></span>
+                <span class="sq" style="width: 80%; height: 10px"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trois lignes, en ligne et synchrones, exécutées avant la première
+         peinture : la classe doit être posée AVANT que le squelette ne
+         s'affiche, sinon on verrait la page d'accueil se dessiner puis
+         disparaître. -->
+    <script>
+      (function () {
+        var squelette = document.getElementById("ms-squelette");
+        if (location.pathname.indexOf("/admin") === 0) {
+          squelette.classList.add("ms-squelette--admin");
+        }
+
+        /*
+          Le délai avant d'avouer que ça charge.
+          ------------------------------------
+          En deçà, un visiteur n'a pas le sentiment d'attendre : lui montrer un
+          écran de chargement lui apprendrait seulement que le site est lent.
+          Au-delà, il attend vraiment, et le silence devient inquiétant.
+
+          600 ms est le seul réglage à toucher pour doser cela. main.tsx annule
+          ce minuteur dès que React a peint : sur une connexion normale, le
+          squelette n'est jamais révélé.
+        */
+        window.__msSqueletteDelai = setTimeout(function () {
+          squelette.classList.add("ms-squelette--visible");
+        }, 600);
+      })();
+    </script>
+
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

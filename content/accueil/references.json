@@ -1,0 +1,140 @@
+{
+  "logos": [
+    {
+      "nom": "UPS",
+      "fichier": "ups.webp"
+    },
+    {
+      "nom": "FedEx",
+      "fichier": "fedex.webp"
+    },
+    {
+      "nom": "TNT",
+      "fichier": "tnt.png"
+    },
+    {
+      "nom": "Mercedes-Benz",
+      "fichier": "mercedes.webp"
+    },
+    {
+      "nom": "Elsewedy Electric",
+      "fichier": "elsewedy.webp"
+    },
+    {
+      "nom": "Groupe Saidal",
+      "fichier": "saidal.webp"
+    },
+    {
+      "nom": "Hamoud Boualem",
+      "fichier": "hamoudboualem.webp"
+    },
+    {
+      "nom": "Orascom Construction",
+      "fichier": "orascom.webp"
+    },
+    {
+      "nom": "Pfizer",
+      "fichier": "pfizer.webp"
+    },
+    {
+      "nom": "Dufry",
+      "fichier": "dufry.png"
+    },
+    {
+      "nom": "ETUSA",
+      "fichier": "etusa.webp"
+    },
+    {
+      "nom": "El Khabar",
+      "fichier": "elkhabar.webp"
+    },
+    {
+      "nom": "ENMTP",
+      "fichier": "enmtp.jpg"
+    },
+    {
+      "nom": "ASAL",
+      "fichier": "asal.webp"
+    },
+    {
+      "nom": "Baticompos",
+      "fichier": "baticompos.webp"
+    },
+    {
+      "nom": "Berlitz",
+      "fichier": "beritz.webp"
+    },
+    {
+      "nom": "Café Dozia",
+      "fichier": "cafe-dozia.webp"
+    },
+    {
+      "nom": "Clasvit",
+      "fichier": "clasvit.webp"
+    },
+    {
+      "nom": "Cabel",
+      "fichier": "client.webp"
+    },
+    {
+      "nom": "Clinique Diar Saada",
+      "fichier": "diar-saada.webp"
+    },
+    {
+      "nom": "El Mihwar",
+      "fichier": "el-mihwar.webp"
+    },
+    {
+      "nom": "FNI",
+      "fichier": "fni.webp"
+    },
+    {
+      "nom": "Gazprom",
+      "fichier": "gazprom.webp"
+    },
+    {
+      "nom": "Gulf Bank Algeria",
+      "fichier": "gba.webp"
+    },
+    {
+      "nom": "La Dépêche de Kabylie",
+      "fichier": "kabylie.webp"
+    },
+    {
+      "nom": "Kompass",
+      "fichier": "kompas.webp"
+    },
+    {
+      "nom": "Maravilla",
+      "fichier": "maravilla.webp"
+    },
+    {
+      "nom": "Sadimet",
+      "fichier": "sadimed.webp"
+    },
+    {
+      "nom": "SLR",
+      "fichier": "slr.webp"
+    },
+    {
+      "nom": "TG-CTP",
+      "fichier": "tg-ctp.webp"
+    },
+    {
+      "nom": "Travomed",
+      "fichier": "travomed.webp"
+    },
+    {
+      "nom": "Vitajus",
+      "fichier": "vitajus.webp"
+    },
+    {
+      "nom": "Amour",
+      "fichier": "Amour.webp"
+    },
+    {
+      "nom": "Ramdy",
+      "fichier": "ramdy.webp"
+    }
+  ]
+}

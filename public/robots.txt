@@ -1,0 +1,55 @@
+# robots.txt — megasoft-office.com
+# Réf. cadrage MEGA-WEB-003, lot 1 (socle SEO).
+
+# ---------------------------------------------------------------------------
+# Moteurs de recherche classiques — accès complet.
+# ---------------------------------------------------------------------------
+User-agent: *
+Allow: /
+
+# L'espace d'administration du blog ne doit jamais être indexé.
+Disallow: /admin
+Disallow: /admin/
+
+Sitemap: https://megasoft-office.com/sitemap.xml
+
+# ---------------------------------------------------------------------------
+# Moteurs génératifs (GEO) — DÉCISION PRISE : ACCÈS AUTORISÉ.
+#
+# GPTBot (ChatGPT), ClaudeBot (Claude), PerplexityBot, CCBot et Google-Extended
+# (Gemini, AI Overviews) sont autorisés à explorer l'ensemble du site.
+#
+# CE N'EST PAS UN OUBLI. C'est un choix, et voici l'échange qu'il acte :
+#
+#   · Ce que Megasoft y gagne — pouvoir être cité comme source lorsqu'un
+#     dirigeant interroge une IA sur les logiciels de gestion en Algérie. Sans
+#     cette autorisation, la visibilité sur ces moteurs est structurellement
+#     impossible : il n'existe ni exception ni contournement.
+#
+#   · Ce que Megasoft accepte en échange — que ces entreprises lisent le
+#     contenu du site, s'en servent pour répondre, et potentiellement pour
+#     entraîner leurs modèles. Un prospect peut donc obtenir sa réponse sans
+#     visiter le site.
+#
+# L'arbitrage retenu : le contenu de ce site est commercial, il est fait pour
+# être vu. Sur le marché de l'ERP, aucun achat ne se conclut sans échange
+# humain — le risque de « zéro clic » est faible, le gain de notoriété réel.
+#
+# ⚠️ AVANT DE BLOQUER CES ROBOTS, mesurer la conséquence : cela annule
+# l'objectif GEO du cadrage. Le bloc ci-dessous est conservé, inactif, pour que
+# la marche arrière reste documentée et immédiate si la Direction change d'avis.
+#
+# Rappel : robots.txt est une demande, pas une barrière. Les grands acteurs la
+# respectent, d'autres l'ignorent — bloquer n'aurait jamais garanti que le
+# contenu ne soit pas lu.
+# ---------------------------------------------------------------------------
+# User-agent: GPTBot
+# Disallow: /
+# User-agent: ClaudeBot
+# Disallow: /
+# User-agent: PerplexityBot
+# Disallow: /
+# User-agent: CCBot
+# Disallow: /
+# User-agent: Google-Extended
+# Disallow: /

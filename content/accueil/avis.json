@@ -1,0 +1,22 @@
+{
+  "avis": [
+    {
+      "note": 5,
+      "texte": "Super entreprise de développement de logiciels de gestion. Accueil personnalisé et professionnel. Logiciels fiables. SAV efficace.",
+      "auteur": "Amine Lebane",
+      "organisation": null
+    },
+    {
+      "note": 5,
+      "texte": "Nous utilisons le logiciel de gestion commerciale Megasoft depuis plus de 5 ans. Un outil fiable qui a suivi la croissance de notre activité.",
+      "auteur": "Aajami",
+      "organisation": "Bizza Promotion"
+    },
+    {
+      "note": 5,
+      "texte": "Un logiciel magnifique, vous devriez l'essayer.",
+      "auteur": "Farouk Bensaid",
+      "organisation": null
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "poles": [
+    {
+      "id": "office",
+      "titre": "La suite de gestion Megasoft",
+      "bouton": "Découvrir Office",
+      "entrees": [
+        {
+          "icone": "serveur",
+          "texte": "Un référentiel unique, des données cohérentes d'un service à l'autre.",
+          "titre": "ERP"
+        },
+        {
+          "icone": "panier",
+          "texte": "Clients, fournisseurs, devis, facturation, stocks et règlements.",
+          "titre": "Gestion commerciale"
+        },
+        {
+          "icone": "billet",
+          "texte": "Comptabilité générale et analytique aux normes SCF et IAS/IFRS.",
+          "titre": "Finance"
+        },
+        {
+          "icone": "personnes",
+          "texte": "Paie, dossiers du personnel et déclarations périodiques.",
+          "titre": "RH"
+        },
+        {
+          "icone": "usine",
+          "texte": "Nomenclatures, ordres de fabrication et ordonnancement.",
+          "titre": "GPAO"
+        },
+        {
+          "icone": "cle",
+          "texte": "Maintenance préventive et curative de vos équipements.",
+          "titre": "GMAO"
+        }
+      ],
+      "libelle": "Office"
+    },
+    {
+      "id": "digital",
+      "titre": "Nos solutions digitales et cloud",
+      "bouton": "Découvrir Digital",
+      "entrees": [
+        {
+          "icone": "camion",
+          "texte": "Transport Management System : planification des tournées, suivi de flotte et coût réel au kilomètre.",
+          "titre": "TMS"
+        },
+        {
+          "icone": "entrepot",
+          "texte": "Warehouse Management System : réception, adressage, préparation de commandes et inventaires, pour un entrepôt piloté à l'emplacement près.",
+          "titre": "WMS"
+        },
+        {
+          "icone": "ecran",
+          "texte": "Manufacturing Execution System : pilotage de l'atelier en temps réel, de l'ordre de fabrication à la traçabilité.",
+          "titre": "MES"
+        },
+        {
+          "icone": "puzzle",
+          "texte": "Développements spécifiques répondant aux contraintes propres à votre activité.",
+          "titre": "Solutions particulières"
+        },
+        {
+          "icone": "nuage",
+          "texte": "Vos outils de gestion accessibles partout, hébergés et sauvegardés, sans infrastructure lourde à maintenir.",
+          "titre": "Cloud"
+        }
+      ],
+      "libelle": "Digital"
+    },
+    {
+      "id": "service",
+      "titre": "Conseil, intégration et intelligence artificielle",
+      "bouton": "Découvrir Services",
+      "entrees": [
+        {
+          "icone": "ampoule",
+          "texte": "Cadrage du besoin, audit de l'existant et choix de la trajectoire avant tout projet.",
+          "titre": "Conseil"
+        },
+        {
+          "icone": "cartons",
+          "texte": "Déploiement et intégration de SAP dans votre système d'information existant.",
+          "titre": "Intégration SAP"
+        },
+        {
+          "icone": "myexobrain",
+          "texte": "Agent IA dédié à la supply chain : évalue les risques, recommande les actions et pilote en temps réel approvisionnements, stocks et livraisons.",
+          "titre": "My Exobrain"
+        },
+        {
+          "icone": "etincelles",
+          "texte": "L'intelligence artificielle appliquée à vos processus métiers : automatisation, analyse et aide à la décision.",
+          "titre": "IA"
+        }
+      ],
+      "libelle": "Services"
+    }
+  ]
+}

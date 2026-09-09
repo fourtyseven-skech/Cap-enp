@@ -1,0 +1,472 @@
+/* ===========================================================================
+   PANEL D'ADMINISTRATION — surfaces et mouvement
+   ===========================================================================
+   Le panel restait volontairement plat et sans mouvement. Ce choix protégeait
+   la vitesse de travail, mais il coûtait autre chose : rien ne reliait plus un
+   geste à son effet. On cliquait une vignette à gauche, une ligne apparaissait
+   à droite, et l'œil devait la chercher.
+
+   Ce fichier réintroduit le mouvement SANS le rendre payant. Trois règles :
+
+   1. Le mouvement RÉPOND, il ne DÉCORE pas. Chaque animation dit où va la
+      chose qu'on vient de manipuler — d'où elle vient, où elle atterrit.
+   2. Le temps se compte en dizaines de millisecondes, pas en centaines. Un
+      survol dure 120 ms, une ouverture 200 ms. Aucune interaction courante ne
+      fait attendre : l'état final est atteint avant que la main ne bouge.
+   3. Rien n'anime la géométrie de la page. Uniquement `transform`, `opacity`,
+      `box-shadow`, `grid-template-rows` — ce que le compositeur traite sans
+      recalculer la mise en page.
+
+   La courbe est celle du site public (cubic-bezier(0.22, 1, 0.36, 1)) : départ
+   franc, arrivée posée. C'est ce qui fait que le panel et l'accueil semblent
+   sortir de la même main, alors même que leur densité n'a rien à voir.
+   ========================================================================= */
+
+/* Les jetons sont posés à la racine ET sur la coquille du panel. La racine est
+   indispensable : l'aperçu du constructeur vit dans un <iframe>, dont le
+   document n'a pas de `.ms-panel` au-dessus de lui — les blocs posés dans la
+   page y perdraient toutes leurs durées, et donc toutes leurs transitions.
+   Cette feuille n'est chargée qu'avec le panel : rien n'en fuit vers le site. */
+:root,
+.ms-panel {
+  /* --- Cadence ---------------------------------------------------------- */
+  --ms-t-instant: 90ms;   /* survol, pression : doit paraître simultané */
+  --ms-t-court: 150ms;    /* bascule d'état, focus */
+  --ms-t-moyen: 220ms;    /* ouverture d'un menu, d'une section */
+  --ms-t-long: 380ms;     /* entrée d'une vue entière */
+  --ms-sortie: cubic-bezier(0.22, 1, 0.36, 1);
+  --ms-doux: cubic-bezier(0.4, 0, 0.2, 1);
+  --ms-ressort: cubic-bezier(0.34, 1.42, 0.64, 1);
+
+  /* --- Profondeur ------------------------------------------------------- */
+  --ms-ombre-plate: 0 1px 2px hsl(222 47% 11% / 0.05);
+  --ms-ombre-carte: 0 1px 2px hsl(222 47% 11% / 0.05), 0 4px 14px -6px hsl(222 47% 11% / 0.12);
+  --ms-ombre-levee: 0 2px 4px hsl(222 47% 11% / 0.06), 0 12px 28px -10px hsl(222 47% 11% / 0.22);
+  --ms-ombre-flottante: 0 8px 20px -6px hsl(222 47% 11% / 0.18), 0 24px 48px -16px hsl(222 47% 11% / 0.28);
+  --ms-halo: 0 0 0 3px hsl(var(--ms-blue) / 0.16);
+}
+
+/* ---------------------------------------------------------------------------
+   FOND DU PANEL
+   ---------------------------------------------------------------------------
+   Un aplat gris uni faisait ressortir chaque panneau comme un timbre collé.
+   Une nappe très légère — deux halos de pôle, dilués à quelques pour cent —
+   donne de l'air sans jamais entrer en concurrence avec le contenu.
+   ------------------------------------------------------------------------- */
+.ms-fond {
+  background-color: hsl(220 20% 97%);
+  background-image:
+    radial-gradient(70rem 40rem at 12% -10%, hsl(var(--ms-blue) / 0.07), transparent 60%),
+    radial-gradient(50rem 34rem at 92% 0%, hsl(var(--ms-mauve) / 0.05), transparent 62%);
+  background-attachment: fixed;
+}
+
+/* ---------------------------------------------------------------------------
+   ENTRÉES
+   ------------------------------------------------------------------------- */
+@keyframes ms-monte {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+}
+@keyframes ms-monte-ample {
+  from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.994); }
+}
+@keyframes ms-glisse-gauche {
+  from { opacity: 0; transform: translate3d(-10px, 0, 0); }
+}
+@keyframes ms-eclot {
+  from { opacity: 0; transform: scale(0.94); }
+}
+
+.ms-entre {
+  animation: ms-monte var(--ms-t-moyen) var(--ms-sortie) both;
+  animation-delay: var(--d, 0ms);
+}
+.ms-entre-vue {
+  animation: ms-monte-ample var(--ms-t-long) var(--ms-sortie) both;
+}
+.ms-entre-lat {
+  animation: ms-glisse-gauche var(--ms-t-moyen) var(--ms-sortie) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Cascade : les enfants directs entrent l'un après l'autre. Le pas est court
+   (22 ms) — assez pour lire un ordre, trop peu pour se transformer en attente.
+   Au-delà du douzième élément le décalage se fige, sinon une liste de trente
+   lignes ferait patienter presque une seconde. */
+.ms-cascade > * {
+  animation: ms-monte var(--ms-t-moyen) var(--ms-sortie) both;
+}
+.ms-cascade > *:nth-child(1)  { animation-delay: 0ms; }
+.ms-cascade > *:nth-child(2)  { animation-delay: 22ms; }
+.ms-cascade > *:nth-child(3)  { animation-delay: 44ms; }
+.ms-cascade > *:nth-child(4)  { animation-delay: 66ms; }
+.ms-cascade > *:nth-child(5)  { animation-delay: 88ms; }
+.ms-cascade > *:nth-child(6)  { animation-delay: 110ms; }
+.ms-cascade > *:nth-child(7)  { animation-delay: 132ms; }
+.ms-cascade > *:nth-child(8)  { animation-delay: 154ms; }
+.ms-cascade > *:nth-child(9)  { animation-delay: 176ms; }
+.ms-cascade > *:nth-child(10) { animation-delay: 198ms; }
+.ms-cascade > *:nth-child(n + 11) { animation-delay: 220ms; }
+
+/* ---------------------------------------------------------------------------
+   SURFACES
+   ------------------------------------------------------------------------- */
+.ms-carte {
+  background: #fff;
+  border: 1px solid hsl(222 15% 90%);
+  border-radius: 10px;
+  box-shadow: var(--ms-ombre-carte);
+  transition:
+    box-shadow var(--ms-t-court) var(--ms-doux),
+    border-color var(--ms-t-court) var(--ms-doux),
+    transform var(--ms-t-court) var(--ms-sortie);
+}
+
+/* En-tête de panneau : dégradé à peine perceptible, qui pose une lumière
+   venant du haut plutôt qu'une bande grise. */
+.ms-carte-entete {
+  background: linear-gradient(to bottom, hsl(220 25% 99%), hsl(220 20% 97%));
+  border-bottom: 1px solid hsl(222 15% 92%);
+}
+
+/* Objet cliquable qui se soulève : vignette de fond, item de bibliothèque,
+   carte de format. Le décalage vertical reste d'un pixel — au-delà, la grille
+   entière semble respirer et le regard décroche. */
+.ms-levier {
+  transition:
+    transform var(--ms-t-court) var(--ms-sortie),
+    box-shadow var(--ms-t-court) var(--ms-doux),
+    border-color var(--ms-t-court) var(--ms-doux);
+  will-change: transform;
+}
+.ms-levier:hover {
+  transform: translate3d(0, -1px, 0);
+  box-shadow: var(--ms-ombre-levee);
+}
+.ms-levier:active {
+  transform: translate3d(0, 0, 0) scale(0.985);
+  transition-duration: var(--ms-t-instant);
+}
+
+/* Pression : accusé de réception physique sur tout ce qui se clique. */
+.ms-presse {
+  transition: transform var(--ms-t-instant) var(--ms-doux);
+}
+.ms-presse:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* ---------------------------------------------------------------------------
+   BOUTONS — reflet au survol
+   ---------------------------------------------------------------------------
+   Un balayage lumineux traverse le bouton principal au survol. C'est le même
+   geste que celui de la démonstration ERP sur l'accueil : la reprise ici n'est
+   pas un clin d'œil, c'est ce qui fait reconnaître la maison.
+   ------------------------------------------------------------------------- */
+.ms-bouton {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    background-color var(--ms-t-court) var(--ms-doux),
+    border-color var(--ms-t-court) var(--ms-doux),
+    color var(--ms-t-court) var(--ms-doux),
+    box-shadow var(--ms-t-court) var(--ms-doux),
+    transform var(--ms-t-instant) var(--ms-doux);
+}
+.ms-bouton:active:not(:disabled) {
+  transform: scale(0.965);
+}
+.ms-bouton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: translateX(-130%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.28), transparent);
+  transition: transform 620ms var(--ms-doux);
+}
+.ms-bouton:hover:not(:disabled)::after {
+  transform: translateX(130%) skewX(-18deg);
+}
+
+/* ---------------------------------------------------------------------------
+   CHAMPS DE SAISIE
+   ------------------------------------------------------------------------- */
+.ms-champ {
+  transition:
+    border-color var(--ms-t-court) var(--ms-doux),
+    box-shadow var(--ms-t-court) var(--ms-doux),
+    background-color var(--ms-t-court) var(--ms-doux);
+}
+.ms-champ:hover:not(:focus) {
+  border-color: hsl(222 15% 75%);
+}
+.ms-champ:focus {
+  outline: none;
+  border-color: hsl(var(--ms-blue));
+  box-shadow: var(--ms-halo);
+}
+
+/* ---------------------------------------------------------------------------
+   LISTE DÉROULANTE
+   ---------------------------------------------------------------------------
+   La liste native ne s'anime pas et n'accepte aucune mise en forme du menu :
+   sur une interface qui se veut cohérente, elle jurait à chaque ouverture. Le
+   composant maison ouvre son menu depuis le bord du bouton — jamais depuis le
+   centre — parce que c'est de là qu'il sort réellement.
+   ------------------------------------------------------------------------- */
+@keyframes ms-menu-bas {
+  from { opacity: 0; transform: translate3d(0, -6px, 0) scale(0.97); }
+}
+@keyframes ms-menu-haut {
+  from { opacity: 0; transform: translate3d(0, 6px, 0) scale(0.97); }
+}
+.ms-menu {
+  transform-origin: top center;
+  animation: ms-menu-bas var(--ms-t-moyen) var(--ms-sortie) both;
+  box-shadow: var(--ms-ombre-flottante);
+}
+.ms-menu[data-sens="haut"] {
+  transform-origin: bottom center;
+  animation-name: ms-menu-haut;
+}
+/* Les entrées se déposent à la suite. Le pas est très court (14 ms) : la liste
+   se remplit dans un même geste, elle ne se déroule pas ligne à ligne. */
+.ms-menu-item {
+  animation: ms-monte 180ms var(--ms-sortie) both;
+  animation-delay: calc(var(--i, 0) * 14ms);
+  transition:
+    background-color var(--ms-t-instant) var(--ms-doux),
+    color var(--ms-t-instant) var(--ms-doux),
+    padding-left var(--ms-t-court) var(--ms-sortie);
+}
+.ms-menu-item[data-survol="1"] {
+  background: hsl(var(--ms-blue) / 0.09);
+  color: hsl(222 47% 11%);
+  padding-left: 14px;
+}
+
+/* Chevron : pivote à l'ouverture. */
+.ms-chevron {
+  transition: transform var(--ms-t-moyen) var(--ms-sortie);
+}
+.ms-chevron[data-ouvert="1"] {
+  transform: rotate(180deg);
+}
+
+/* ---------------------------------------------------------------------------
+   ONGLETS — l'indicateur voyage
+   ---------------------------------------------------------------------------
+   Faire disparaître un fond ici pour le faire apparaître là oblige l'œil à
+   retrouver la position active. Un indicateur unique qui SE DÉPLACE la donne
+   gratuitement : on suit le mouvement, on sait où l'on est.
+   ------------------------------------------------------------------------- */
+.ms-onglets {
+  position: relative;
+}
+.ms-curseur {
+  position: absolute;
+  transition:
+    transform 320ms var(--ms-sortie),
+    width 320ms var(--ms-sortie),
+    opacity var(--ms-t-court) var(--ms-doux);
+  will-change: transform, width;
+}
+/* Au tout premier rendu, la position n'est pas encore mesurée : on masque le
+   curseur plutôt que de le faire glisser depuis l'origine. */
+.ms-curseur[data-pret="0"] {
+  opacity: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   SECTIONS REPLIABLES
+   ---------------------------------------------------------------------------
+   `height: auto` ne s'anime pas ; une hauteur fixe en dur casse dès que le
+   contenu change. La grille à une ligne passant de 0fr à 1fr anime une hauteur
+   automatique, sans mesure JavaScript ni valeur à maintenir.
+   ------------------------------------------------------------------------- */
+.ms-repli {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 260ms var(--ms-sortie);
+}
+.ms-repli > * {
+  overflow: hidden;
+  opacity: 0;
+  transform: translate3d(0, -4px, 0);
+  transition:
+    opacity var(--ms-t-court) var(--ms-doux),
+    transform var(--ms-t-moyen) var(--ms-sortie);
+}
+.ms-repli[data-ouvert="1"] {
+  grid-template-rows: 1fr;
+}
+.ms-repli[data-ouvert="1"] > * {
+  opacity: 1;
+  transform: none;
+  transition-delay: 60ms;
+}
+
+/* ---------------------------------------------------------------------------
+   SIGNAUX
+   ------------------------------------------------------------------------- */
+
+/* Ce qui vient d'être créé se signale — un halo qui enfle puis s'éteint. Sans
+   lui, un calque ajouté dans une pile de huit passe inaperçu. */
+@keyframes ms-signal {
+  0%   { box-shadow: 0 0 0 0 hsl(var(--ms-blue) / 0.55); }
+  60%  { box-shadow: 0 0 0 7px hsl(var(--ms-blue) / 0); }
+  100% { box-shadow: 0 0 0 0 hsl(var(--ms-blue) / 0); }
+}
+.ms-signal {
+  animation: ms-signal 1.2s var(--ms-doux) 2;
+}
+
+/* Apparition d'un élément inséré dans une liste existante. */
+@keyframes ms-insere {
+  from { opacity: 0; transform: translate3d(0, -6px, 0) scale(0.97); }
+}
+.ms-insere {
+  animation: ms-insere 260ms var(--ms-ressort) both;
+}
+
+/* Pastille de comptage qui change de valeur. */
+@keyframes ms-battement {
+  50% { transform: scale(1.18); }
+}
+.ms-battement {
+  animation: ms-battement 260ms var(--ms-ressort);
+}
+
+/* Attente : une barre qui balaie, plutôt qu'un mot immobile. */
+@keyframes ms-balaye {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(300%); }
+}
+.ms-attente {
+  position: relative;
+  overflow: hidden;
+  background: hsl(222 15% 92%);
+}
+.ms-attente::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 34%;
+  background: linear-gradient(90deg, transparent, hsl(var(--ms-blue) / 0.55), transparent);
+  animation: ms-balaye 1.15s var(--ms-doux) infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   GLISSER-DÉPOSER
+   ------------------------------------------------------------------------- */
+/* Zone d'accueil du constructeur : la page respire pendant qu'on tient un
+   composant au-dessus d'elle. */
+.ms-depot {
+  transition: box-shadow var(--ms-t-moyen) var(--ms-doux), background-color var(--ms-t-moyen) var(--ms-doux);
+}
+.ms-depot[data-actif="1"] {
+  box-shadow: inset 0 0 0 2px hsl(var(--ms-blue) / 0.35);
+  background-color: hsl(var(--ms-blue) / 0.03);
+}
+
+/* Bloc posé dans la page : son contour ne clignote pas, il se dessine. */
+.ms-bloc-cadre {
+  transition:
+    box-shadow var(--ms-t-court) var(--ms-doux),
+    background-color var(--ms-t-court) var(--ms-doux);
+}
+.ms-poignee {
+  transition:
+    opacity var(--ms-t-court) var(--ms-doux),
+    transform var(--ms-t-court) var(--ms-sortie);
+}
+.ms-poignee[data-visible="0"] {
+  opacity: 0;
+  transform: translate3d(-4px, -50%, 0);
+}
+.ms-poignee[data-visible="1"],
+.group:hover > .ms-poignee[data-visible="0"],
+.ms-poignee[data-visible="0"]:focus-visible {
+  opacity: 1;
+  transform: translate3d(0, -50%, 0);
+}
+
+/* Voile « + Empiler » sur les vignettes de fond : il monte du bas du cadre. */
+.ms-voile {
+  opacity: 0;
+  transform: translate3d(0, 100%, 0);
+  transition:
+    opacity var(--ms-t-court) var(--ms-doux),
+    transform var(--ms-t-moyen) var(--ms-sortie);
+}
+.ms-levier:hover .ms-voile,
+.ms-levier:focus-visible .ms-voile {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+   LIGNES DE TABLEAU
+   ---------------------------------------------------------------------------
+   Le rang survolé se signale par un liseré de pôle qui pousse depuis la gauche,
+   plutôt que par un aplat gris qui déplace l'attention sur toute la largeur.
+   ------------------------------------------------------------------------- */
+.ms-rang {
+  position: relative;
+  transition: background-color var(--ms-t-court) var(--ms-doux);
+}
+.ms-rang::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: hsl(var(--ms-blue));
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform var(--ms-t-moyen) var(--ms-sortie);
+}
+.ms-rang:hover::before {
+  transform: scaleY(1);
+}
+/* Les actions d'une ligne n'existent que pour la ligne qu'on regarde. Elles
+   restent atteignables au clavier : le focus les rappelle. */
+.ms-actions {
+  opacity: 0;
+  transform: translate3d(6px, 0, 0);
+  transition:
+    opacity var(--ms-t-court) var(--ms-doux),
+    transform var(--ms-t-moyen) var(--ms-sortie);
+}
+.ms-rang:hover .ms-actions,
+.ms-rang:focus-within .ms-actions {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------------------------------------------------------
+   RESPECT DU RÉGLAGE SYSTÈME
+   ---------------------------------------------------------------------------
+   Le mouvement est un confort, jamais une condition d'usage. Quand le système
+   demande à le réduire, tout arrive instantanément dans son état final : rien
+   ne disparaît, rien ne devient inaccessible.
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .ms-panel *,
+  .ms-panel *::before,
+  .ms-panel *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+  .ms-levier:hover {
+    transform: none;
+  }
+  .ms-actions {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,73 +1,101 @@
-# Welcome to your Lovable project
+# Megasoft Office — Site vitrine
 
-## Project info
+Site web officiel de **Megasoft Office**, éditeur de logiciels de gestion
+d'entreprise en Algérie depuis 1990. Présentation des trois pôles —
+**Office**, **Digital** et **Services** — couvrant l'ERP, la gestion
+commerciale, la finance, les RH, la GPAO, la GMAO, le TMS, le MES, le cloud,
+l'intégration SAP et l'IA.
 
-**URL**: https://lovable.dev/projects/8533d9ef-0dbf-4a51-8df3-6e0eb3d7b0dd
+Application web monopage (single-page) construite avec React, Vite et Tailwind CSS.
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## Stack technique
 
-**Use Lovable**
+- **React 18** + **TypeScript**
+- **Vite** — bundler et serveur de développement
+- **Tailwind CSS** — design system (voir `src/index.css` et `tailwind.config.ts`)
+- **Framer Motion** + **GSAP / ScrollTrigger** — animations et effets au défilement
+- **React Router** — routage
+- **shadcn/ui** (Radix UI) — composants d'interface
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8533d9ef-0dbf-4a51-8df3-6e0eb3d7b0dd) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## Prérequis
 
-**Use your preferred IDE**
+- [Node.js](https://nodejs.org/) **18 ou supérieur**
+- npm (fourni avec Node.js)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+npm install
+```
 
-Follow these steps:
+## Développement
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Lance le serveur de développement avec rechargement à chaud :
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Le site est alors accessible sur **http://localhost:8080**.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Build de production
 
-**Use GitHub Codespaces**
+Génère la version optimisée dans le dossier `dist/` :
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm run build
+```
 
-## What technologies are used for this project?
+Pour prévisualiser localement le build de production :
 
-This project is built with:
+```bash
+npm run preview
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Lint
 
-## How can I deploy this project?
+```bash
+npm run lint
+```
 
-Simply open [Lovable](https://lovable.dev/projects/8533d9ef-0dbf-4a51-8df3-6e0eb3d7b0dd) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## Structure du projet
 
-Yes, you can!
+```
+public/                 Fichiers statiques servis tels quels (favicon, vidéos hero…)
+src/
+  assets/               Images du site
+    clients/            Logos des clients / partenaires
+    megasoft/           Visuels de marque (logos, intro, poster hero)
+  components/           Composants de la page
+    brand/              Identité de marque (logo vectoriel, emblème, révélation des pôles)
+    ui/                 Composants d'interface (shadcn/ui)
+  pages/                Pages routées (Index, NotFound)
+  hooks/                Hooks React réutilisables
+  lib/                  Utilitaires
+  index.css             Design system (couleurs, typographie, tokens)
+  App.tsx               Racine de l'application et routage
+  main.tsx              Point d'entrée
+index.html              Gabarit HTML + métadonnées SEO / Open Graph
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+La page d'accueil (`src/pages/Index.tsx`) assemble les sections du site :
+Hero, Qui sommes-nous, Solutions, Pourquoi nous, Partenaires, Témoignages,
+Références, Contact.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+
+## Identité visuelle
+
+La charte graphique de Megasoft — « Le Double Trait » — définit les couleurs,
+la typographie (Poppins + Inter Tight) et les motifs. Les couleurs des pôles
+ne se mélangent jamais : Bleu **Office**, Vert **Service**, Rose **Digital**.
+
+---
+
+© Megasoft — Tous droits réservés.

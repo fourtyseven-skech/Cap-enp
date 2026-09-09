@@ -1,0 +1,9 @@
+.pg-recette/
+medias/
+dist/
+node_modules/
+.pg-panel/
+.pont-sortie/
+.pont-medias/
+.pont-htaccess
+.chrome-panel/

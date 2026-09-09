@@ -1,0 +1,30 @@
+{
+  "liens": [
+    {
+      "ancre": "apropos",
+      "libelle": "Qui sommes-nous"
+    },
+    {
+      "ancre": "solutions",
+      "libelle": "Solutions"
+    },
+    {
+      "ancre": "megaerp",
+      "libelle": "ERP"
+    },
+    {
+      "ancre": "pourquoi",
+      "libelle": "Pourquoi nous"
+    },
+    {
+      "ancre": "partenaires",
+      "libelle": "Partenaires"
+    },
+    {
+      "ancre": "references",
+      "libelle": "Références"
+    }
+  ],
+  "bouton_blog": "Blog",
+  "bouton_demo": "Demander une démo"
+}

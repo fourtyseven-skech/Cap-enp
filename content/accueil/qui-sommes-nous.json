@@ -1,0 +1,25 @@
+{
+  "lieu": "Depuis 1990, à Hydra, Alger",
+  "badge": "Qui sommes-nous",
+  "colonnes": [
+    {
+      "index": "01",
+      "texte": "ERP, gestion commerciale, finance aux normes SCF et IAS/IFRS, paie, GPAO, GMAO : le socle est écrit et maintenu par nos équipes, pas assemblé à partir de briques achetées ailleurs.",
+      "titre": "Une suite que nous éditons nous-mêmes"
+    },
+    {
+      "index": "02",
+      "texte": "TMS, WMS, MES : au-delà de la gestion, nous pilotons l'entrepôt, l'atelier et la route. Sur vos serveurs ou dans le cloud, selon ce que votre infrastructure permet.",
+      "titre": "Le terrain autant que le bureau"
+    },
+    {
+      "index": "03",
+      "texte": "Cadrage du besoin avant tout projet, intégration de SAP dans votre système existant, et l'intelligence artificielle mise au travail sur la supply chain avec My Exobrain.",
+      "titre": "Conseil, intégration et IA"
+    }
+  ],
+  "titre_doux": "Trois métiers sous le même toit — de la comptabilité SCF au pilotage d'atelier, sans jamais vous renvoyer vers un tiers.",
+  "titre_fort": "Éditeur, intégrateur et concepteur d'IA.",
+  "libelle_annees": "Années d'expertise",
+  "annee_fondation": 1990
+}

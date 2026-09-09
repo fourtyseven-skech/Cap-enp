@@ -1,0 +1,21 @@
+{
+  "poles": [
+    {
+      "id": "office",
+      "nom": "Megasoft Office",
+      "descriptif": "Suite de gestion"
+    },
+    {
+      "id": "digital",
+      "nom": "Megasoft Digital",
+      "descriptif": "Solutions digitales & cloud"
+    },
+    {
+      "id": "service",
+      "nom": "Megasoft Services",
+      "descriptif": "Conseil, intégration & IA"
+    }
+  ],
+  "mention_legale": "Megasoft. Tous droits réservés.",
+  "telephones_affiches": 2
+}

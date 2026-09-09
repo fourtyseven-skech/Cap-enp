@@ -1,0 +1,53 @@
+{
+  "titre": "Pourquoi choisir Megasoft plutôt qu'un autre éditeur ?",
+  "cartes": [
+    {
+      "pin": "droite",
+      "texte": "Chaque paramétrage part de votre métier, pas d'un modèle standard qu'on adapte à la marge.",
+      "titre": "Sur-mesure, pas générique",
+      "teinte": "vert"
+    },
+    {
+      "pin": "gauche",
+      "texte": "Multinationales, PME familiales, organismes publics : nos solutions tiennent la charge à toutes les échelles.",
+      "titre": "Des références qui parlent",
+      "teinte": "orange"
+    },
+    {
+      "pin": "droite",
+      "texte": "Des partenaires formés sur le terrain dans plusieurs wilayas, pas un centre d'appel unique à Alger.",
+      "titre": "Présence locale",
+      "teinte": "violet"
+    },
+    {
+      "pin": "gauche",
+      "texte": "Nos logiciels évoluent avec la réglementation algérienne, sans surcoût caché à chaque changement.",
+      "titre": "Mise à jour continue",
+      "teinte": "bleu"
+    }
+  ],
+  "surtitre": "Ce qui nous",
+  "engagements": [
+    {
+      "icone": "calendrier",
+      "texte": "Une ligne technique joignable, sans standard automatique ni ticket qui traîne.",
+      "titre": "Support en semaine"
+    },
+    {
+      "icone": "bouclier",
+      "texte": "Des partenaires technologiques choisis pour leur fiabilité, pas leur prix.",
+      "titre": "Normes internationales"
+    },
+    {
+      "icone": "boussole",
+      "texte": "De l'audit initial jusqu'au déploiement final, un seul interlocuteur.",
+      "titre": "Accompagnement complet"
+    },
+    {
+      "icone": "ampoule",
+      "texte": "Chaque mise en place s'accompagne d'une formation de vos équipes, pas juste d'une installation.",
+      "titre": "Formation incluse"
+    }
+  ],
+  "pilule_engagements": "Nos engagements"
+}

@@ -1,0 +1,153 @@
+# ===========================================================================
+#  MEGASOFT — CONFIGURATION DU SERVEUR WEB
+#  Apache / LiteSpeed (PlanetHoster N0C)
+# ===========================================================================
+#
+#  Ce fichier remplace l'ancien `_redirects`, qui n'était lu que par Netlify et
+#  Cloudflare Pages. Le site est hébergé sur le serveur du client, chez
+#  PlanetHoster : `_redirects` y était un fichier mort, et les règles qu'il
+#  contenait ne s'appliquaient pas.
+#
+#  Il est copié tel quel dans `dist/` au moment du build, puisqu'il se trouve
+#  dans `public/`.
+# ===========================================================================
+
+
+# ---------------------------------------------------------------------------
+#  1. EN-TÊTES DE SÉCURITÉ
+# ---------------------------------------------------------------------------
+<IfModule mod_headers.c>
+
+  # Le site ne doit pas pouvoir être affiché dans un cadre sur un site tiers :
+  # c'est le scénario du clic détourné, où le visiteur croit cliquer sur une
+  # page et agit en réalité sur une autre.
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Empêche le navigateur de deviner un type différent de celui annoncé.
+  Header always set X-Content-Type-Options "nosniff"
+
+  # L'adresse complète de la page n'est pas transmise aux sites tiers, mais
+  # l'origine l'est : les statistiques de provenance continuent de fonctionner.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Aucune de ces fonctions n'est utilisée par le site. Les refuser évite
+  # qu'un script tiers introduit un jour puisse les demander.
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # HTTPS obligatoire pendant un an. À n'activer qu'une fois le certificat en
+  # place et vérifié : tant que HSTS est posé, le navigateur REFUSE toute
+  # connexion non chiffrée, et le retour en arrière prend un an.
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+</IfModule>
+
+
+# ---------------------------------------------------------------------------
+#  2. COMPRESSION
+# ---------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+  # Ni les images ni les vidéos : elles sont déjà compressées, et les
+  # recompresser coûte du processeur sans rien gagner.
+</IfModule>
+
+
+# ---------------------------------------------------------------------------
+#  3. DURÉE DE CACHE
+# ---------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Les fichiers produits par le build portent une empreinte dans leur nom
+  # (`main-DUTQksYN.js`) : leur contenu ne change jamais sans que le nom change.
+  # Ils peuvent donc être gardés un an.
+  <FilesMatch "\.(js|css|woff2)$">
+    ExpiresDefault "access plus 1 year"
+    <IfModule mod_headers.c>
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </IfModule>
+  </FilesMatch>
+
+  <FilesMatch "\.(webp|avif|png|jpg|jpeg|gif|mp4|webm)$">
+    ExpiresDefault "access plus 6 months"
+  </FilesMatch>
+
+  # Les pages HTML, elles, changent à chaque publication : elles ne doivent
+  # jamais être gardées, sinon un article publié resterait invisible pour les
+  # visiteurs déjà venus.
+  <FilesMatch "\.(html|xml|txt|json)$">
+    ExpiresDefault "access plus 0 seconds"
+    <IfModule mod_headers.c>
+      Header set Cache-Control "no-cache, must-revalidate"
+    </IfModule>
+  </FilesMatch>
+</IfModule>
+
+
+# ---------------------------------------------------------------------------
+#  4. REDIRECTIONS D'ARTICLES
+# ---------------------------------------------------------------------------
+#
+#  Le bloc ci-dessous est ÉCRIT PAR UN SCRIPT à chaque construction du site
+#  (`scripts/exporter-redirections.mjs`), à partir de la table `redirections`.
+#
+#  Renommer un article déjà publié crée automatiquement une redirection 301 :
+#  sans elle, chaque correction de titre casse les liens déjà partagés et fait
+#  perdre le référencement acquis par la page.
+#
+#  Ne rien écrire entre les deux marques : tout y est remplacé.
+#
+# >>> REDIRECTIONS GENEREES — DEBUT
+# (aucune redirection enregistrée)
+# <<< REDIRECTIONS GENEREES — FIN
+
+
+# ---------------------------------------------------------------------------
+#  5. ROUTAGE
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Un fichier ou un dossier qui existe est servi tel quel. C'est le cas de
+  # l'immense majorité des adresses : l'accueil, /faq/, /blog/<slug>/ et les
+  # pages de catégorie sont de vrais fichiers HTML produits au build.
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Tout le reste est confié à l'application React, qui affiche sa propre page
+  # « introuvable ». Sans cette règle, une adresse inconnue donnerait la page
+  # d'erreur brute du serveur, sans en-tête ni pied de page.
+  #
+  # Le code 404 est conservé : renvoyer 200 sur une page inexistante ferait
+  # indexer des pages vides par les moteurs de recherche.
+  RewriteRule ^ /index.html [L]
+</IfModule>
+
+ErrorDocument 404 /index.html
+
+
+# ---------------------------------------------------------------------------
+#  6. FICHIERS À NE JAMAIS SERVIR
+# ---------------------------------------------------------------------------
+#
+#  Ceinture et bretelles : ces fichiers ne devraient pas se trouver dans le
+#  dossier publié. S'ils y arrivaient un jour par erreur de déploiement, ils ne
+#  seraient pas lisibles pour autant.
+<FilesMatch "^\.env|\.env\.|^\.git|\.sql$|\.log$|package(-lock)?\.json$">
+  Require all denied
+</FilesMatch>
+
+# Les dossiers cachés produits par les outils de construction. `.vite/` contient
+# le manifeste du build : il décrit la structure interne du site et n'a aucune
+# raison d'être lisible depuis l'extérieur.
+#
+# `.well-known/` est la seule exception, et elle est nécessaire : c'est là que
+# se placent les preuves de propriété du domaine, notamment pour le
+# renouvellement automatique du certificat HTTPS.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule "(^|/)\.(?!well-known)" - [F,L]
+</IfModule>
