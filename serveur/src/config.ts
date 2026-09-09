@@ -91,6 +91,13 @@ export const config = {
     secret: requis("SECRET_SESSION"),
     dureeH: nombre("DUREE_SESSION_H", 12),
     coutBcrypt: nombre("COUT_BCRYPT", 12),
+    /**
+     * FACULTATIF — n'existe que pour une démo où le panel et l'API sont sur
+     * deux domaines différents (ex. Netlify + Render). En production normale,
+     * panel et API partagent le même domaine et `SameSite=Strict` suffit :
+     * ne jamais activer ce réglage hors d'une démo multi-domaines.
+     */
+    coteACote: (process.env.COOKIE_COTE_A_COTE ?? "0") === "1",
   },
 
   origineAutorisee: requis("ORIGINE_AUTORISEE"),

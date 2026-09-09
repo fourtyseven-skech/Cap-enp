@@ -106,19 +106,25 @@ const poserCookie = (res: Response, jeton: string, dureeMs: number) => {
     `${NOM_COOKIE}=${encodeURIComponent(jeton)}`,
     "Path=/",
     "HttpOnly",
-    "SameSite=Strict",
+    `SameSite=${config.session.coteACote ? "None" : "Strict"}`,
     `Max-Age=${Math.floor(dureeMs / 1000)}`,
   ];
   // `Secure` empêche le cookie de circuler en clair. En développement local,
   // l'adresse est en http:// et le navigateur refuserait alors le cookie.
-  if (config.environnement === "production") attributs.push("Secure");
+  // `SameSite=None` l'exige dans tous les cas, sans quoi le navigateur rejette
+  // purement et simplement le cookie.
+  if (config.environnement === "production" || config.session.coteACote) {
+    attributs.push("Secure");
+  }
   res.setHeader("Set-Cookie", attributs.join("; "));
 };
 
 const retirerCookie = (res: Response) => {
   res.setHeader(
     "Set-Cookie",
-    `${NOM_COOKIE}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0`
+    `${NOM_COOKIE}=; Path=/; HttpOnly; SameSite=${
+      config.session.coteACote ? "None" : "Strict"
+    }; Max-Age=0`
   );
 };
 
